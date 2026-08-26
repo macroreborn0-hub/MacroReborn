@@ -1,0 +1,2840 @@
+/* ==========================================================================
+   MACRO REBORN — PERFIL (propio y público)
+   Rediseño "clásico" inspirado en los viejos portales de juegos (paneles
+   claros, bordes celestes gruesos, chapas azules, medallas doradas de
+   nivel/puntos). Usa los tokens de css/inicio.css (:root / [data-tema])
+   así que el modo oscuro NO se elimina: en modo oscuro los mismos
+   paneles pasan a fondo oscuro con borde celeste brillante, en vez de
+   fondo blanco. Ningún selector de acá cambia IDs/clases usados por JS,
+   solo se los da estilo.
+   ========================================================================== */
+
+.mr-root {
+  background: var(--bg-base);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.perfil {
+  --clasico-fuente: Verdana, Geneva, Tahoma, sans-serif;
+  --clasico-borde: #6d3fd1;
+  --clasico-radio: 10px;
+  --clasico-plate: linear-gradient(180deg, #5b3aa0 0%, #2a1150 100%);
+  --clasico-header: linear-gradient(180deg, var(--bg-panel-alt) 0%, var(--bg-panel) 100%);
+  --clasico-avatar-fondo: linear-gradient(180deg, #1f0f3d 0%, var(--bg-deep) 100%);
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  font-family: var(--clasico-fuente);
+}
+
+/* En modo claro (html[data-tema="claro"]) se ve prácticamente igual al
+   portal clásico original: celeste vivo sobre paneles blancos. */
+html[data-tema="claro"] .perfil {
+  --clasico-borde: var(--accent-color);
+  --clasico-plate: linear-gradient(180deg, #8b6fd1 0%, #5b3aa0 100%);
+  --clasico-header: linear-gradient(180deg, #f3eefb 0%, #e0d3f7 100%);
+  --clasico-avatar-fondo: linear-gradient(180deg, #ede4fa 0%, #c9adf0 100%);
+}
+
+/* ==========================================================================
+   CABECERA DEL PERFIL
+   ========================================================================== */
+
+.perfil-superior {
+  position: relative;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 34px;
+  background: var(--bg-panel);
+  border: 4px solid var(--clasico-borde);
+  border-radius: var(--clasico-radio);
+  padding: 80px 30px 30px;
+  overflow: hidden;
+  box-shadow: 0 10px 24px rgba(10, 20, 40, 0.3);
+}
+
+.perfil-superior::before {
+  content: "";
+  display: none;
+}
+
+/* ---- Chapa superior: nivel (izq.) y estado (der.), estilo "cabecera
+   de tarjeta clásica" que corona toda la tarjeta de perfil ---- */
+
+.perfil-badges {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0;
+  padding: 11px 18px;
+  background: var(--clasico-header);
+  border-bottom: 3px solid var(--clasico-borde);
+  border-radius: 6px 6px 0 0;
+}
+
+.estado,
+.nivel {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 7px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.nivel {
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 65%, var(--gold-deep) 100%);
+  color: var(--text-on-accent);
+  border: 2px solid var(--bg-panel);
+  box-shadow: 0 0 0 2px var(--clasico-borde);
+}
+
+.estado {
+  background: var(--bg-panel);
+  color: var(--green);
+  border: 1px solid var(--line);
+}
+
+/* ---- Avatar principal ---- */
+
+.avatar {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 327 / 505;
+  border: 4px solid var(--clasico-borde);
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--clasico-avatar-fondo);
+  box-shadow: 0 10px 22px rgba(10, 20, 40, 0.3);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---- Datos ---- */
+
+.datos {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.datos h1 {
+  display: inline-block;
+  font-family: var(--clasico-fuente);
+  font-size: clamp(18px, 2.4vw, 22px);
+  font-weight: bold;
+  margin: 0 0 14px;
+  padding: 8px 18px;
+  color: #ffffff;
+  background: var(--clasico-plate);
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  word-break: break-word;
+}
+
+.biografia {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.65;
+  max-width: 60ch;
+  margin: 0 0 18px;
+}
+
+.insignias {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  background: var(--bg-panel-alt);
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  border-radius: 999px;
+  width: fit-content;
+  margin-bottom: 20px;
+}
+
+.datos button {
+  align-self: flex-start;
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 65%, var(--gold-deep) 100%);
+  color: var(--text-on-accent);
+  border: 2px solid var(--gold-deep);
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 13.5px;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.datos button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+/* Botón "Agregar amigo" en usuario.html (mismo elemento, mismo id,       */
+/* estilado acá en vez de con estilos inline en el HTML — ver css/usuario.css */
+
+/* ==========================================================================
+   ESTADÍSTICAS
+   ========================================================================== */
+
+.estadisticas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.estadisticas > div {
+  background: var(--bg-panel);
+  border: 2px solid var(--clasico-borde);
+  padding: 18px;
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.estadisticas > div:hover {
+  transform: translateY(-3px);
+  border-top-color: var(--gold);
+}
+
+.estadisticas h3 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.estadisticas > div > p {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--clasico-borde);
+}
+
+.barra-xp {
+  width: 100%;
+  height: 10px;
+  background: var(--bg-deep);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 10px;
+  border: 1px solid var(--line);
+}
+
+#progresoXP {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold-bright));
+  transition: width 0.4s ease;
+}
+
+#textoXP {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   MENÚ DE PESTAÑAS
+   ========================================================================== */
+
+.menu-perfil {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 30px;
+  padding: 8px;
+  background: var(--bg-panel);
+  border: 3px solid var(--clasico-borde);
+  border-radius: 10px;
+  position: sticky;
+  top: 78px;
+  z-index: 20;
+}
+
+.menu-perfil button {
+  background: var(--bg-panel-alt);
+  color: var(--clasico-borde);
+  border: 1px solid var(--line);
+  padding: 9px 14px;
+  border-radius: 5px;
+  font-size: 12.5px;
+  font-weight: bold;
+  font-family: var(--clasico-fuente);
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.menu-perfil button:hover {
+  color: var(--text-main);
+  border-color: var(--clasico-borde);
+}
+
+.menu-perfil .activa {
+  background: var(--clasico-plate);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.menu-perfil .activa:hover {
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   CONTENIDO DE PESTAÑAS
+   ========================================================================== */
+
+.contenido-tab {
+  display: none;
+  background: var(--bg-panel);
+  border: 3px solid var(--clasico-borde);
+  padding: 26px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.contenido-tab.activo {
+  display: block;
+  animation: aparecer 0.25s ease;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.contenido-tab > h2 {
+  font-family: var(--clasico-fuente);
+  font-size: 19px;
+  margin: 0 0 18px;
+  color: var(--clasico-borde);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contenido-tab > h3 {
+  font-size: 14px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 22px 0 12px;
+}
+
+.contenido-tab > p {
+  color: var(--text-muted);
+  font-size: 14.5px;
+}
+
+/* ==========================================================================
+   ACTIVIDAD (propia / de amigos / lista de amigos)
+   ========================================================================== */
+
+.actividad {
+  background: var(--bg-panel-alt);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--clasico-borde);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 10px 0;
+  font-size: 14px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.actividad:hover {
+  border-left-color: var(--gold);
+  transform: translateX(2px);
+}
+
+/* Actividades con destino (mención, reseña, like, amigo agregado) se
+   pintan como <a> en vez de <div> para que se pueda tocar y navegar;
+   este selector les saca la pinta de link del navegador para que se
+   vean exactamente igual que las que no son clickeables. */
+a.actividad {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.actividad-fecha {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   ACTIVIDAD "RICA" (avatar del autor + su nombre + nombre de la
+   persona mencionada, cada uno con su propio link al perfil que
+   corresponde, más una tarjeta-cita con el texto citado). Pintada por
+   renderizarActividadHTML() en js/motor/actividad.js.
+
+   Es un <div> (no un <a> como ".actividad" arriba) porque adentro hay
+   VARIOS links independientes -avatar, autor, mención- y no se pueden
+   anidar <a> dentro de otro <a>.
+   ========================================================================== */
+
+.actividad-rica {
+  display: block;
+  cursor: default;
+}
+
+.actividad-fila-principal {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.actividad-avatar-link {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.actividad-contenido {
+  flex: 1;
+  min-width: 0;
+}
+
+.actividad-linea {
+  line-height: 1.5;
+}
+
+.actividad-nombre-autor,
+.actividad-nombre-mencion {
+  color: var(--gold-bright);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.actividad-nombre-autor:hover,
+.actividad-nombre-mencion:hover {
+  text-decoration: underline;
+}
+
+/* Tarjeta-cita: repite el avatar del autor (chico) + el texto citado,
+   con el mismo marco cuadrado dorado que el resto de los avatares. */
+.actividad-cita {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(160deg, rgba(240, 180, 41, 0.1) 0%, var(--bg-panel) 55%);
+  border: 1px solid var(--gold-deep);
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+a.actividad-cita:hover {
+  border-color: var(--gold);
+}
+
+.actividad-cita .avatar-mini,
+.actividad-cita .avatar-comentario {
+  width: 36px;
+  height: 36px;
+}
+
+.actividad-cita-texto {
+  flex: 1;
+  min-width: 0;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* ==========================================================================
+   AMIGOS (pestaña "Amigos" de perfil.html / usuario.html)
+   Tarjetas compactas (más chicas que las de Comunidad a propósito:
+   acá conviven muchas en una pestaña angosta, así que se prioriza
+   densidad por sobre el tamaño grande de las tarjetas de Comunidad).
+   ========================================================================== */
+
+.grid-usuarios {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  gap: 12px;
+}
+
+.tarjeta-usuario {
+  position: relative;
+  background: linear-gradient(180deg, var(--bg-panel), var(--bg-deep));
+  border: 1.5px solid var(--clasico-borde);
+  border-radius: 10px;
+  padding: 14px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  height: 100%;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tarjeta-usuario:hover {
+  border-color: var(--gold-deep);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+}
+
+.avatar-tarjeta {
+  width: 56px;
+  height: 86px;
+  position: relative;
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(240, 180, 41, 0.14), transparent 65%),
+    var(--bg-deep);
+  flex-shrink: 0;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.32);
+}
+
+.avatar-tarjeta .capa-tarjeta,
+.avatar-tarjeta .avatar-default {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  top: 0;
+  left: 0;
+}
+
+.usuario-nombre {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--gold-bright);
+  margin: 0;
+  text-align: center;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.usuario-stats {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat-item {
+  background: var(--bg-deep);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 3px 8px;
+  text-align: center;
+  min-width: 0;
+}
+
+.stat-item .stat-valor {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--gold-bright);
+  display: block;
+  line-height: 1.15;
+}
+
+.stat-item .stat-label {
+  font-size: 8.5px;
+  color: var(--text-muted);
+  display: block;
+}
+
+.btn-ver-perfil {
+  display: block;
+  text-align: center;
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold) 60%, var(--gold-deep));
+  color: var(--text-on-accent);
+  font-weight: 800;
+  font-size: 11px;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  flex: 1;
+}
+
+.btn-ver-perfil:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(240, 180, 41, 0.3);
+}
+
+/* Pie de la tarjeta de amigo: "Ver perfil" + "Eliminar" lado a lado */
+.tarjeta-amigo-acciones {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  margin-top: auto;
+}
+
+.btn-quitar-amigo-perfil {
+  background: rgba(239, 68, 68, 0.13);
+  color: #ef4444;
+  border: 1.5px solid rgba(239, 68, 68, 0.4);
+  padding: 7px 9px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.btn-quitar-amigo-perfil:hover {
+  background: rgba(239, 68, 68, 0.22);
+  transform: translateY(-2px);
+}
+
+/* Estrella de "Amigo favorito", esquina superior derecha de la tarjeta */
+.btn-favorito-amigo {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-panel-alt);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  z-index: 2;
+}
+
+.btn-favorito-amigo:hover {
+  transform: scale(1.12);
+  border-color: var(--gold);
+  color: var(--gold-bright);
+}
+
+.btn-favorito-amigo.es-favorito {
+  background: rgba(240, 180, 41, 0.16);
+  border-color: var(--gold);
+  color: var(--gold-bright);
+}
+
+.btn-favorito-amigo:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Estrella de favorito en modo solo lectura (perfil ajeno, usuario.html):
+   no es un botón clickeable, solo un indicador visual. */
+.icono-favorito-amigo {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(240, 180, 41, 0.16);
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  color: var(--gold-bright);
+  font-size: 12px;
+  line-height: 1;
+  z-index: 2;
+}
+
+@media (max-width: 480px) {
+  .grid-usuarios {
+    grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+    gap: 10px;
+  }
+
+  .avatar-tarjeta {
+    width: 48px;
+    height: 74px;
+  }
+
+  .usuario-nombre {
+    font-size: 11.5px;
+  }
+
+  .tarjeta-amigo-acciones {
+    flex-direction: column;
+  }
+}
+
+/* ==========================================================================
+   COMENTARIOS
+   ========================================================================== */
+
+.comentario {
+  background: var(--bg-panel-alt);
+  border: 2px solid var(--clasico-borde);
+  padding: 14px 16px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.usuario-comentario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.usuario-comentario b {
+  color: var(--clasico-borde);
+  font-size: 14px;
+}
+
+.comentario > p {
+  color: var(--text-secondary);
+  margin: 0 0 10px;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.boton-responder {
+  background: rgba(56, 189, 248, 0.14);
+  color: var(--clasico-borde);
+  border: 1px solid var(--clasico-borde);
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: transform 0.15s ease;
+}
+
+.boton-responder:hover {
+  transform: translateY(-2px);
+}
+
+.boton-eliminar {
+  background: rgba(239, 68, 68, 0.14);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  margin-left: 8px;
+  transition: transform 0.15s ease;
+}
+
+.boton-eliminar:hover {
+  transform: translateY(-2px);
+}
+
+.boton-reportar {
+  background: var(--warning-bg);
+  color: var(--gold-bright);
+  border: 1px solid rgba(240, 180, 41, 0.35);
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  margin-left: 8px;
+  transition: transform 0.15s ease;
+}
+
+.boton-reportar:hover {
+  transform: translateY(-2px);
+}
+
+.acciones-comentarios {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.boton-eliminar-todos {
+  background: rgba(239, 68, 68, 0.14);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: transform 0.15s ease;
+}
+
+.boton-eliminar-todos:hover {
+  transform: translateY(-2px);
+}
+
+.nuevo-comentario {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.nuevo-comentario input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  color: var(--text-main);
+  font-size: 14px;
+}
+
+.nuevo-comentario input:focus {
+  outline: none;
+  border-color: var(--clasico-borde);
+}
+
+#botonComentar {
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 65%, var(--gold-deep) 100%);
+  color: var(--text-on-accent);
+  border: 2px solid var(--gold-deep);
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 13.5px;
+  transition: transform 0.15s ease;
+}
+
+#botonComentar:hover {
+  transform: translateY(-2px);
+}
+
+/* Avatar chico usado en comentarios / actividad / listas de amigos      */
+/* (mismo criterio "círculo con object-fit:cover" que Comunidad/Chat)    */
+
+/* Antes era un círculo (border-radius:50%). Ahora usa un marco
+   cuadrado ornamentado con destellos en las esquinas (estilo tarjeta
+   clásica de perfil), igual al resto de los avatares del sitio. */
+.avatar-mini {
+  width: 55px;
+  height: 55px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  display: inline-block;
+  flex-shrink: 0;
+  background: var(--bg-deep);
+  border: 2px solid var(--gold);
+  box-shadow: inset 0 0 0 2px var(--gold-deep);
+}
+
+.avatar-mini::before,
+.avatar-mini::after {
+  content: "";
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  background: radial-gradient(circle at 35% 35%, var(--gold-bright) 0%, var(--gold) 55%, var(--gold-deep) 100%);
+  clip-path: polygon(50% 0%, 61% 38%, 100% 50%, 61% 62%, 50% 100%, 39% 62%, 0% 50%, 39% 38%);
+  filter: drop-shadow(0 0 2px rgba(240, 180, 41, .8));
+  pointer-events: none;
+  z-index: 2;
+}
+.avatar-mini::before { top: 1px; left: 1px; }
+.avatar-mini::after { bottom: 1px; right: 1px; }
+
+.capa-comentario {
+  /* FIX: se reemplaza el recorte "a mano" (mezcla de % + zoom fijo,
+     calibrado solo para el lienzo de 327x504px) por el mismo criterio
+     que ya usa correctamente ".avatar-mini-conectado .capa-mini" en
+     Comunidad (css/comunidad.css) y ".capa-chat" en el chat
+     (css/chat.css): la capa ocupa el 100% del círculo, pegada arriba
+     a la izquierda, con object-fit:cover. Al depender de porcentajes
+     fijos de zoom, el recorte anterior se veía bien solo si el avatar
+     tenía activas exactamente las mismas capas con las que se calibró;
+     con otras combinaciones (o el avatar por defecto) la imagen
+     quedaba corrida hacia abajo, fuera de encuadre dentro del círculo.
+     Con este criterio el avatar se ve igual acá que en Comunidad y en
+     el chat, y funciona para cualquier combinación de capas. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* FIX: esta clase se usa para el avatar por defecto (usuarios que
+   todavía no armaron su avatar personalizado, el caso más común) en
+   comentarios y en "Últimos comentarios" de Inicio, pero no tenía
+   ninguna regla propia: salía sin estilo, en su tamaño real (mucho
+   más grande que el círculo de 55px de ".avatar-mini"), rompiendo el
+   diseño y dando la impresión de que "no se ve el avatar". Se le da
+   el mismo tamaño/recorte circular que ya usa ".avatar-mini" para las
+   capas personalizadas. */
+.avatar-comentario {
+  width: 55px;
+  height: 55px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--bg-deep);
+  border: 2px solid var(--gold);
+  box-shadow: inset 0 0 0 2px var(--gold-deep);
+}
+
+/* ==========================================================================
+   JUEGOS FAVORITOS / ÚLTIMOS JUGADOS
+   (tarjetas coherentes con css/juegos.css del catálogo)
+   ========================================================================== */
+
+.juegos-favoritos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+/* NOTA: antes esta regla era ".juegos-favoritos, #ultimos", pero un
+   selector por ID (#ultimos) tiene más especificidad que la clase
+   ".contenido-tab" que oculta las pestañas inactivas (display:none).
+   Eso hacía que "Últimos jugados" quedara siempre visible sin importar
+   qué pestaña estuviera activa. Se agrega ".activo" para que el grid
+   solo se aplique cuando la pestaña realmente está seleccionada. */
+#ultimos.activo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+/* En #ultimos el propio JS inyecta un <h2> y a veces un <p>, que deben  */
+/* ocupar todo el ancho de la grilla en vez de achicarse como tarjeta.   */
+#ultimos > h2,
+#ultimos > p {
+  grid-column: 1 / -1;
+}
+
+.juego-card {
+  background: var(--bg-panel-alt);
+  border: 2px solid var(--clasico-borde);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.juego-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--clasico-borde);
+}
+
+.juego-imagen {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  background: var(--bg-deep);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.juego-card h3 {
+  font-size: 14px;
+  margin: 0;
+  color: var(--text-main);
+}
+
+/* ==========================================================================
+   EDITOR DE AVATAR
+   ========================================================================== */
+
+#botonCrearAvatar {
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 65%, var(--gold-deep) 100%);
+  color: var(--text-on-accent);
+  border: 2px solid var(--gold-deep);
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 14px;
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#botonCrearAvatar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+}
+
+.subtitulo-avatares {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0 0 4px;
+}
+
+.editor-avatar {
+  background: var(--bg-panel-alt);
+  border: 3px solid var(--clasico-borde);
+  margin-top: 26px;
+  padding: 24px;
+  border-radius: 10px;
+}
+
+.editor-avatar > h3 {
+  font-family: var(--clasico-fuente);
+  font-size: 16px;
+  color: var(--clasico-borde);
+  margin: 0 0 20px;
+}
+
+/* ---- Barra de categorías ---- */
+
+.editor-categorias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 26px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cat-btn {
+  background: var(--bg-panel);
+  color: var(--text-secondary);
+  border: 1px solid var(--line);
+  padding: 9px 15px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.cat-btn:hover {
+  border-color: var(--clasico-borde);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.cat-btn.activa-cat {
+  background: var(--clasico-plate);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+/* ---- Layout preview + opciones ---- */
+
+.preview-container {
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.preview-wrapper {
+  flex-shrink: 0;
+}
+
+.preview-label {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 10px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Marco tipo "cápsula de personaje": mantiene proporción 327x505      */
+/* pero ahora es responsive (ver .capa dentro, en % en vez de px fijos). */
+.preview-capas {
+  position: relative;
+  width: 300px;
+  max-width: 100%;
+  aspect-ratio: 327 / 505;
+  overflow: hidden;
+  background: var(--bg-deep);
+  border-radius: 12px;
+  border: 3px solid var(--clasico-borde);
+  box-shadow: 0 12px 26px rgba(10, 20, 40, 0.3);
+}
+
+.preview-capas .capa {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  left: 0;
+  top: 0;
+}
+
+/* ---- Panel de opciones ---- */
+
+.opciones-editor {
+  flex: 1;
+  min-width: 260px;
+}
+
+.fila-opciones {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.opcion-item {
+  background: var(--bg-panel);
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  border: 2px solid var(--line);
+  transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+  color: var(--text-secondary);
+}
+
+.opcion-item img {
+  width: 64px;
+  height: 100px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 6px;
+}
+
+.opcion-item:hover {
+  border-color: var(--clasico-borde);
+  transform: translateY(-3px);
+}
+
+.opcion-item.seleccionada {
+  border-color: var(--clasico-borde);
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--clasico-borde);
+}
+
+.sin-opciones {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* ---- Prendas de la tienda del Centro de avatares (no compradas) ---- */
+/* Mismo .opcion-item de siempre, solo agrega el candado + opacidad.
+   No toca ninguna categoría que no esté en la tienda. */
+
+.opcion-item.cr-bloqueada {
+  opacity: 0.45;
+  cursor: pointer;
+  position: relative;
+}
+
+.opcion-item.cr-bloqueada:hover {
+  border-color: var(--line);
+  transform: none;
+}
+
+.opcion-item.cr-bloqueada::after {
+  content: "🔒";
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 13px;
+}
+
+.opcion-item.cr-bloqueada .cr-precio-prenda {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--gold-bright, var(--gold));
+}
+
+/* ---- Acciones del editor ---- */
+
+.editor-acciones {
+  display: flex;
+  gap: 12px;
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+#guardarAvatar {
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 65%, var(--gold-deep) 100%);
+  color: var(--text-on-accent);
+  border: 2px solid var(--gold-deep);
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 14px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  transition: transform 0.15s ease;
+}
+
+#guardarAvatar:hover {
+  transform: translateY(-2px);
+}
+
+#cancelarEditor {
+  background: var(--bg-panel);
+  color: var(--text-main);
+  border: 1px solid var(--line);
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+#cancelarEditor:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+  transform: translateY(-2px);
+}
+
+#guardarEnGaleria {
+  background: var(--bg-panel);
+  color: var(--clasico-borde);
+  border: 2px solid var(--clasico-borde);
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 14px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+#guardarEnGaleria:hover {
+  background: rgba(56, 189, 248, 0.12);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   GALERÍA DE AVATARES GUARDADOS
+   (perfil.html: 6 casilleros propios con cuadros de conteo.
+   usuario.html: los mismos 6 casilleros, ajenos, con botones de voto.)
+   ========================================================================== */
+
+.galeria-avatares-wrap {
+  margin-top: 34px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+
+.galeria-avatares-wrap > h3 {
+  font-family: var(--clasico-fuente);
+  font-size: 16px;
+  color: var(--clasico-borde);
+  margin: 0 0 6px;
+}
+
+.galeria-avatares {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.tarjeta-avatar-galeria {
+  position: relative;
+  background: linear-gradient(180deg, var(--bg-panel), var(--bg-deep));
+  border: 1.5px solid var(--clasico-borde);
+  border-radius: 12px;
+  padding: 16px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tarjeta-avatar-galeria:hover {
+  border-color: var(--gold-deep);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+}
+
+.numero-casillero {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+  background: var(--bg-deep);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-galeria-visor {
+  width: 100px;
+  height: 154px;
+  position: relative;
+  border: 2px solid var(--gold);
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(240, 180, 41, 0.14), transparent 65%),
+    var(--bg-deep);
+  flex-shrink: 0;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.32);
+}
+
+.avatar-galeria-visor .capa-tarjeta {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  top: 0;
+  left: 0;
+}
+
+.avatar-galeria-visor.vacio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: var(--text-placeholder);
+  border-style: dashed;
+  border-color: var(--line);
+}
+
+.tarjeta-avatar-vacia {
+  border-style: dashed;
+  border-color: var(--line);
+}
+
+.tarjeta-avatar-vacia:hover {
+  border-color: var(--clasico-borde);
+}
+
+.texto-vacio {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ---- Botones de acción del dueño (guardar / reemplazar / quitar) ---- */
+
+.acciones-avatar-galeria {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.btn-guardar-aqui,
+.btn-reemplazar-avatar,
+.btn-quitar-avatar-galeria {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 7px 8px;
+  border-radius: 8px;
+  width: 100%;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.btn-guardar-aqui {
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 65%, var(--gold-deep) 100%);
+  color: var(--text-on-accent);
+  border: 1.5px solid var(--gold-deep);
+}
+
+.btn-reemplazar-avatar {
+  background: var(--bg-panel);
+  color: var(--clasico-borde);
+  border: 1.5px solid var(--clasico-borde);
+}
+
+.btn-quitar-avatar-galeria {
+  background: var(--bg-panel);
+  color: var(--danger-light);
+  border: 1.5px solid var(--danger);
+}
+
+.btn-guardar-aqui:hover,
+.btn-reemplazar-avatar:hover,
+.btn-quitar-avatar-galeria:hover {
+  transform: translateY(-2px);
+}
+
+/* ---- Cuadros de conteo (dueño: reemplazan los botones de voto) ---- */
+
+.votos-avatar-caja {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.caja-conteo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: var(--bg-deep);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 4px;
+}
+
+.caja-conteo .icono {
+  font-size: 14px;
+}
+
+.caja-conteo .numero {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.caja-conteo-like {
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.caja-conteo-dislike {
+  border-color: rgba(248, 113, 113, 0.35);
+}
+
+/* ---- Botones de voto (visitante: usuario.html) ---- */
+
+.votos-avatar-botones {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-voto-avatar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: var(--bg-deep);
+  color: var(--text-secondary);
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 4px;
+  font-size: 12.5px;
+  font-weight: 800;
+  transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+}
+
+.btn-voto-avatar:hover {
+  transform: translateY(-2px);
+}
+
+.btn-voto-like:hover,
+.btn-voto-like.activo {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.btn-voto-dislike:hover,
+.btn-voto-dislike.activo {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: rgba(248, 113, 113, 0.1);
+}
+
+@media (max-width: 480px) {
+  .galeria-avatares {
+    grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
+  }
+
+  .avatar-galeria-visor {
+    width: 84px;
+    height: 130px;
+  }
+}
+
+/* ==========================================================================
+   LOGROS
+   ========================================================================== */
+
+#listaLogros,
+#listaLogrosUsuario {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.tarjeta-logro {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--bg-panel-alt);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.tarjeta-logro:hover {
+  transform: translateY(-3px);
+}
+
+.icono-logro {
+  font-size: 32px;
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(240, 180, 41, 0.1);
+  border: 1px solid rgba(240, 180, 41, 0.25);
+}
+
+.tarjeta-logro h3 {
+  color: var(--gold-bright);
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.tarjeta-logro p {
+  color: var(--text-secondary);
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+
+.estado-logro {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.tarjeta-logro.desbloqueado {
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+.tarjeta-logro.desbloqueado .estado-logro {
+  color: var(--green);
+}
+
+.tarjeta-logro.bloqueado {
+  opacity: 0.55;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .perfil-superior {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 92px;
+  }
+
+  .avatar {
+    width: 200px;
+    margin: 0 auto;
+  }
+
+  .insignias {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .datos button {
+    align-self: center;
+  }
+
+  .biografia {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .preview-container {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .perfil {
+    padding: 24px 14px 60px;
+  }
+
+  .perfil-superior {
+    padding: 88px 18px 22px;
+    border-radius: 14px;
+  }
+
+  .perfil-badges {
+    flex-wrap: wrap;
+    padding: 10px 14px;
+  }
+
+  .menu-perfil {
+    position: static;
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    border-radius: 14px;
+  }
+
+  .contenido-tab {
+    padding: 18px;
+  }
+
+  .editor-categorias {
+    gap: 6px;
+  }
+
+  .cat-btn {
+    font-size: 11.5px;
+    padding: 8px 11px;
+  }
+}
+
+/* ==========================================================================
+   CONFIRMACIÓN AL ELIMINAR COMENTARIO
+   Modal simple, con la misma identidad visual (panel + borde celeste)
+   que el resto del perfil. Se crea dinámicamente desde perfil.js
+   solo cuando se necesita confirmar el borrado de un comentario.
+   ========================================================================== */
+
+.confirmacion-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 15, 28, 0.72);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: confirmacionFundido 0.15s ease;
+}
+
+@keyframes confirmacionFundido {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.confirmacion-caja {
+  background: var(--bg-panel);
+  border: 3px solid var(--clasico-borde);
+  border-radius: 14px;
+  padding: 26px 28px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  animation: confirmacionAparecer 0.18s ease;
+}
+
+@keyframes confirmacionAparecer {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.confirmacion-mensaje {
+  color: var(--text-main);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0 0 22px;
+}
+
+.confirmacion-botones {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.confirmacion-cancelar,
+.confirmacion-confirmar {
+  flex: 1;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13.5px;
+  padding: 11px 16px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.confirmacion-cancelar {
+  background: var(--bg-panel-alt);
+  color: var(--text-main);
+  border: 1px solid var(--line);
+}
+
+.confirmacion-cancelar:hover {
+  border-color: var(--line-hover);
+  color: var(--accent);
+}
+
+.confirmacion-confirmar {
+  background: var(--danger-bg);
+  color: var(--danger-light);
+  border: 1px solid color-mix(in srgb, var(--danger) 40%, transparent);
+}
+
+.confirmacion-confirmar:hover {
+  background: color-mix(in srgb, var(--danger) 24%, transparent);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   CONFIGURACIÓN DE CUENTA (exclusivo de perfil.html — ver js/perfil-config.js)
+   Usa los mismos tokens (:root) que el resto de MacroReborn, por lo que
+   hereda automáticamente el modo oscuro/claro. No se reutiliza en
+   usuario.html porque esa página no incluye el markup #config-cuenta.
+   ========================================================================== */
+
+.config-subtitulo {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: -6px 0 24px;
+}
+
+.config-bloque {
+  margin-bottom: 30px;
+}
+
+.config-bloque:last-child {
+  margin-bottom: 0;
+}
+
+.config-bloque > h3 {
+  font-family: var(--clasico-fuente);
+  font-size: 15px;
+  color: var(--clasico-borde);
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.config-tarjeta {
+  background: var(--bg-panel-alt);
+  border: 3px solid var(--clasico-borde);
+  border-radius: 10px;
+  padding: 24px;
+  max-width: 460px;
+}
+
+.config-tarjeta h4 {
+  margin: 0 0 18px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.config-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.campo-config {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.campo-config label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.campo-config input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.campo-config input:hover {
+  border-color: var(--line-hover);
+}
+
+.campo-config input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.campo-config input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Mensaje de error / éxito del formulario (oculto por defecto) */
+.config-mensaje {
+  display: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 13px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  line-height: 1.4;
+}
+
+.config-mensaje.visible {
+  display: block;
+  animation: config-mensaje-in 0.2s ease both;
+}
+
+.config-mensaje.error {
+  color: var(--danger-light);
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.config-mensaje.exito {
+  color: var(--success-light);
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+@keyframes config-mensaje-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#botonGuardarPassword {
+  align-self: flex-start;
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 65%, var(--gold-deep) 100%);
+  color: var(--text-on-accent);
+  border: 2px solid var(--gold-deep);
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 13.5px;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+#botonGuardarPassword:hover {
+  transform: translateY(-2px);
+}
+
+#botonGuardarPassword:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 640px) {
+  .config-tarjeta {
+    max-width: 100%;
+    padding: 18px;
+  }
+
+  #botonGuardarPassword {
+    align-self: stretch;
+  }
+}
+
+/* ==========================================================================
+   ZONA PELIGROSA — ELIMINAR CUENTA (exclusivo de perfil.html)
+   Reutiliza los tokens (:root) y el modal .confirmacion-* ya existente en
+   este archivo, así que hereda automáticamente el modo oscuro/claro.
+   ========================================================================== */
+
+.config-bloque-peligro > h3 {
+  color: var(--danger-light);
+  border-bottom-color: rgba(239, 68, 68, 0.35);
+}
+
+.config-tarjeta-peligro {
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.config-aviso-peligro {
+  color: var(--text-main);
+  font-size: 13.5px;
+  line-height: 1.55;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 0 0 20px;
+}
+
+.boton-peligro {
+  background: rgba(239, 68, 68, 0.16);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 13.5px;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.boton-peligro:hover {
+  background: #ef4444;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.boton-peligro:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Campo de contraseña dentro del modal de confirmación reutilizado */
+.confirmacion-caja .campo-config {
+  text-align: left;
+  margin: 0 0 14px;
+}
+
+.confirmacion-caja .config-mensaje {
+  text-align: left;
+  margin: 0 0 14px;
+}
+
+/* Mensaje de despedida que reemplaza la tarjeta tras eliminar la cuenta */
+.config-despedida {
+  color: var(--success-light);
+  font-size: 14.5px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  padding: 10px 0;
+}
+
+@media (max-width: 640px) {
+  .boton-peligro {
+    width: 100%;
+  }
+}
+
+/* Evita el zoom automático de Safari/iOS al tocar estos inputs (se activa
+   cuando el font-size es menor a 16px). Solo aplica en mobile. */
+@media (max-width: 768px) {
+  .nuevo-comentario input,
+  .campo-config input {
+    font-size: 16px;
+  }
+}
+
+/* ==========================================================================
+   PERFIL — LAYOUT "TARJETA CLÁSICA" (avatar con chapas + sidebar de stats)
+   --------------------------------------------------------------------------
+   Reestructura visual del header de perfil.html / usuario.html a un
+   layout de dos columnas al estilo portal clásico: tarjeta de avatar
+   con insignias superpuestas + caja de estadísticas a la izquierda,
+   pestañas + info + comentarios a la derecha. Usa los mismos tokens
+   --clasico-* / --bg-* / --gold / --clasico-borde que ya definía este
+   archivo, así que respeta los colores propios de MacroReborn (oscuro
+   por defecto, claro con data-tema="claro") en vez de los celestes de
+   la referencia. No toca IDs/clases que ya lee js/perfil.js o
+   js/usuario.js: solo agrega clases nuevas y contenedores.
+   ========================================================================== */
+
+/* ---- Miga de pan superior ---- */
+
+.perfil-migas {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-family: var(--clasico-fuente);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.perfil-migas-texto strong {
+  color: var(--clasico-borde);
+}
+
+.perfil-volver {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--bg-panel);
+  border: 2px solid var(--clasico-borde);
+  color: var(--clasico-borde);
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.perfil-volver:hover {
+  transform: translateX(-2px);
+  background: var(--bg-panel-alt);
+}
+
+/* ---- Cuerpo: sidebar + columna principal ---- */
+
+.perfil-cuerpo {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  align-items: start;
+  gap: 28px;
+}
+
+.perfil-sidebar {
+  position: sticky;
+  top: 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.perfil-principal {
+  min-width: 0;
+}
+
+/* ---- Tarjeta de avatar con chapas superpuestas ---- */
+
+.tarjeta-avatar {
+  position: relative;
+  border: 4px solid var(--clasico-borde);
+  border-radius: var(--clasico-radio);
+  overflow: hidden;
+  background: var(--clasico-avatar-fondo);
+  box-shadow: 0 10px 22px rgba(10, 20, 40, 0.3);
+}
+
+.tarjeta-avatar-chapas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 10px;
+  pointer-events: none;
+}
+
+.tarjeta-avatar-chapas > * {
+  pointer-events: auto;
+}
+
+/* Las chapas reusan .nivel/.estado (mismas clases que lee perfil.js /
+   usuario.js) pero acá, superpuestas sobre el avatar, se ven como
+   placas redondeadas en vez de la barra ancha del layout viejo. */
+
+.tarjeta-chapa-nivel.nivel {
+  margin: 0;
+  padding: 6px 11px;
+  font-size: 11.5px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 65%, var(--gold-deep) 100%);
+  color: var(--text-on-accent);
+  border: 2px solid var(--bg-panel);
+  box-shadow: 0 0 0 2px var(--clasico-borde), 0 4px 10px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+  max-width: 62%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tarjeta-chapa-estado.estado {
+  margin: 0;
+  padding: 6px 11px;
+  font-size: 11px;
+  border-radius: 999px;
+  background: rgba(10, 15, 28, 0.72);
+  color: var(--green);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(2px);
+  white-space: nowrap;
+  max-width: 62%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* La imagen ocupa toda la tarjeta; el marco/borde ya lo da .tarjeta-avatar */
+
+.tarjeta-avatar .avatar {
+  width: 100%;
+  aspect-ratio: 327 / 505;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.tarjeta-avatar-pie {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 10px 14px 12px;
+  background: var(--clasico-plate);
+  border-top: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.tarjeta-avatar-nombre {
+  display: block;
+  color: #ffffff;
+  font-family: var(--clasico-fuente);
+  font-weight: bold;
+  font-size: 14px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Caja de estadísticas (lista, no grilla de tarjetas) ---- */
+
+.tarjeta-stats {
+  background: var(--bg-panel);
+  border: 3px solid var(--clasico-borde);
+  border-radius: var(--clasico-radio);
+  overflow: hidden;
+}
+
+.tarjeta-stats-titulo {
+  margin: 0;
+  padding: 11px 16px;
+  font-family: var(--clasico-fuente);
+  font-size: 13.5px;
+  font-weight: bold;
+  color: #ffffff;
+  background: var(--clasico-plate);
+}
+
+.tarjeta-stats .estadisticas {
+  display: block;
+  margin-top: 0;
+  padding: 6px 16px 14px;
+}
+
+.tarjeta-stats .estadisticas > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  padding: 10px 0;
+  transform: none !important;
+}
+
+.tarjeta-stats .estadisticas > div:last-child {
+  border-bottom: none;
+}
+
+.tarjeta-stats .estadisticas h3 {
+  margin: 0;
+  font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.tarjeta-stats .estadisticas > div > p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--clasico-borde);
+  text-align: right;
+}
+
+.tarjeta-stats .estadisticas .fila-xp {
+  display: block;
+}
+
+.tarjeta-stats .estadisticas .fila-xp-cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tarjeta-stats .barra-xp {
+  margin-top: 8px;
+}
+
+.tarjeta-stats #textoXP {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+  text-align: right;
+}
+
+.tarjeta-stats .estadisticas .fila-etiqueta-propia {
+  display: block;
+}
+
+.tarjeta-stats .estadisticas .fila-etiqueta-propia h3 {
+  display: none;
+}
+
+.tarjeta-stats .estadisticas .fila-etiqueta-propia p {
+  text-align: left;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* ---- Fila de acciones (usuario.html: agregar amigo / bloquear) ---- */
+
+.perfil-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* ---- Encabezado de nombre en la columna principal ---- */
+
+.perfil-datos-cabecera h1 {
+  display: inline-block;
+  font-family: var(--clasico-fuente);
+  font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: bold;
+  margin: 22px 0 14px;
+  padding: 8px 18px;
+  color: #ffffff;
+  background: var(--clasico-plate);
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  word-break: break-word;
+}
+
+/* ---- Caja de biografía (equivalente al recuadro claro del video) ---- */
+
+.perfil-caja-info {
+  background: var(--bg-panel-alt);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--clasico-borde);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+.perfil-caja-info .biografia {
+  margin: 0 0 12px;
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+
+.perfil-caja-info:has(#inputBio) .biografia {
+  margin-bottom: 0;
+}
+
+.perfil-btn-editar {
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 65%, var(--gold-deep) 100%);
+  color: var(--text-on-accent);
+  border: 2px solid var(--gold-deep);
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 12.5px;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.perfil-btn-editar:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+.perfil-oculto-visual {
+  display: none;
+}
+
+/* ---- Barra "Últimos Comentarios" (como el botón azul del video) ---- */
+
+.perfil-barra-comentarios {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: var(--clasico-plate);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: var(--clasico-fuente);
+  font-size: 13.5px;
+  font-weight: bold;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: filter 0.15s ease;
+}
+
+.perfil-barra-comentarios:hover {
+  filter: brightness(1.1);
+}
+
+.perfil-preview-comentarios {
+  margin-top: 10px;
+}
+
+.perfil-preview-comentarios:empty {
+  margin-top: 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE — layout "tarjeta clásica"
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .perfil-cuerpo {
+    grid-template-columns: 1fr;
+  }
+
+  .perfil-sidebar {
+    position: static;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .perfil-migas {
+    font-size: 12px;
+  }
+
+  .perfil-acciones {
+    justify-content: center;
+  }
+
+  .perfil-datos-cabecera {
+    text-align: center;
+  }
+
+  .perfil-datos-cabecera h1 {
+    margin-top: 14px;
+  }
+}
+
+/* =====================================================================
+   PORTAL 2.ª TANDA — CABECERA GAMER Y RESUMEN
+   ===================================================================== */
+.perfil-datos-cabecera{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:18px;
+}
+.perfil-eyebrow{
+  display:inline-block;
+  color:var(--text-muted);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.16em;
+  margin-bottom:6px;
+}
+.perfil-cabecera-subtexto{
+  margin:-5px 0 0;
+  color:var(--text-muted);
+  font-size:13px;
+}
+.perfil-bienvenida-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(220px,1fr);gap:14px;align-items:stretch}
+.perfil-mini-etiqueta{font-size:10px;letter-spacing:.16em;font-weight:900;color:var(--text-muted)}
+.perfil-mini-panel{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:15px;border-radius:12px;border:1px solid var(--line);background:rgba(56,189,248,.06)}
+.perfil-mini-panel strong{color:var(--text-main);font-size:13px}
+.perfil-mini-panel span{color:var(--text-muted);font-size:12px;line-height:1.45}
+@media (max-width:900px){
+  .perfil-datos-cabecera{align-items:stretch;flex-direction:column}
+  }
+@media (max-width:560px){
+  .perfil-bienvenida-grid{grid-template-columns:1fr}
+}
+
+
+/* Personalización visual inspirada en ThemeContext de Morpho. */
+.config-bloque-personalizacion .config-subtitulo{max-width:760px}
+.mr-paleta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.mr-paleta-opcion{display:flex;align-items:center;gap:12px;text-align:left;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg-panel-alt);color:var(--text-main);cursor:pointer;transition:border-color .16s ease,transform .16s ease,box-shadow .16s ease}
+.mr-paleta-opcion:hover{transform:translateY(-1px);border-color:var(--line-hover)}
+.mr-paleta-opcion.activo{border-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 22%,transparent)}
+.mr-paleta-opcion span:last-child{display:flex;flex-direction:column;gap:2px}
+.mr-paleta-opcion strong{font-size:13px}
+.mr-paleta-opcion small{font-size:11px;color:var(--text-muted)}
+.mr-paleta-muestra{width:34px;height:34px;border-radius:10px;flex:0 0 34px;border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.mr-paleta-macro{background:linear-gradient(135deg,var(--accent),var(--gold))}
+.mr-paleta-neon{background:linear-gradient(135deg,#22d3ee,var(--cyan))}
+.mr-paleta-arcade{background:linear-gradient(135deg,#fb7185,#f59e0b)}
+.mr-paleta-clasica{background:linear-gradient(135deg,var(--gold),#60a5fa)}
+.mr-tema-inline{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--text-muted)}
+.mr-paleta-toggle{border:1px solid var(--line);background:var(--bg-panel);color:var(--text-main);border-radius:9px;padding:8px 11px;font-weight:800;cursor:pointer}
+.mr-paleta-toggle:hover{border-color:var(--line-hover)}
+@media(max-width:700px){.mr-paleta-grid{grid-template-columns:1fr}.mr-tema-inline{align-items:flex-start;flex-direction:column}}
+
+
+/* ==========================================================================
+   MACROJUEGOS CLÁSICO — PERFIL / SOLO MODO CLARO
+   --------------------------------------------------------------------------
+   Este bloque sustituye la apariencia "dashboard/gamer" del perfil por una
+   recreación más fiel del portal clásico de MacroJuegos.
+   No cambia IDs, HTML, datos, sesión, API ni lógica JavaScript.
+   El modo oscuro no se toca.
+   ========================================================================== */
+
+html[data-tema="claro"] .perfil {
+  --mj-blue: #167ac6;
+  --mj-blue-dark: #0d5da8;
+  --mj-blue-light: #4aa3df;
+  --mj-blue-pale: #eaf7ff;
+  --mj-blue-soft: #dff3ff;
+  --mj-border: #9cc8e8;
+  --mj-yellow: #ffcc00;
+  --mj-yellow-dark: #e6a800;
+  --mj-orange: #ff9900;
+  --mj-text: #2d2d2d;
+
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 16px 14px 42px;
+  color: var(--mj-text);
+  font-family: Verdana, Geneva, Tahoma, Arial, sans-serif;
+}
+
+/* Fondo plano tipo portal antiguo */
+html[data-tema="claro"] .perfil::selection {
+  background: #167ac6;
+  color: #fff;
+}
+
+html[data-tema="claro"] .perfil-migas {
+  margin: 0 0 8px;
+  gap: 5px;
+  font: 11px Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #6b6b6b;
+  letter-spacing: 0;
+}
+
+html[data-tema="claro"] .perfil-migas-texto strong {
+  color: #3e3e3e;
+}
+
+html[data-tema="claro"] .perfil-volver {
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--mj-blue);
+  font-size: 18px;
+  box-shadow: none;
+}
+
+html[data-tema="claro"] .perfil-volver:hover {
+  background: transparent;
+  transform: translateX(-1px);
+}
+
+/* Layout principal: avatar estrecho a la izquierda + contenido ancho */
+html[data-tema="claro"] .perfil-cuerpo {
+  grid-template-columns: 178px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+html[data-tema="claro"] .perfil-sidebar {
+  position: static;
+  gap: 9px;
+}
+
+/* Avatar: marco azul fino, sin sombras modernas */
+html[data-tema="claro"] .tarjeta-avatar {
+  border: 1px solid #7eb5dc;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 1px 1px 0 rgba(0,0,0,.08);
+}
+
+html[data-tema="claro"] .tarjeta-avatar-chapas {
+  padding: 5px;
+  gap: 4px;
+}
+
+html[data-tema="claro"] .tarjeta-chapa-nivel.nivel,
+html[data-tema="claro"] .tarjeta-chapa-estado.estado {
+  padding: 3px 5px;
+  border-radius: 2px;
+  font: 10px Arial, Helvetica, sans-serif;
+  box-shadow: none;
+  max-width: 48%;
+  background: rgba(255,255,255,.94);
+}
+
+html[data-tema="claro"] .tarjeta-chapa-nivel.nivel {
+  color: #795600;
+  border: 1px solid var(--mj-yellow-dark);
+  background: #fff8c9;
+}
+
+html[data-tema="claro"] .tarjeta-chapa-estado.estado {
+  color: #27822d;
+  border: 1px solid #9bcf9b;
+  background: #effbea;
+}
+
+html[data-tema="claro"] .tarjeta-avatar .avatar {
+  aspect-ratio: 327 / 505;
+  background: #fff;
+}
+
+html[data-tema="claro"] .tarjeta-avatar-pie {
+  padding: 6px 7px;
+  background: var(--mj-blue);
+  border-top: 1px solid var(--mj-blue-dark);
+}
+
+html[data-tema="claro"] .tarjeta-avatar-nombre {
+  font: bold 13px Verdana, Geneva, Tahoma, Arial, sans-serif;
+  color: #fff;
+  text-shadow: none;
+}
+
+/* Insignias: pequeñas y planas */
+html[data-tema="claro"] .insignias-usuario {
+  margin: 0;
+  padding: 4px;
+  background: #fff;
+  border: 1px solid var(--mj-border);
+  border-radius: 2px;
+}
+
+/* Estadísticas: bloque compacto, no tarjetas */
+html[data-tema="claro"] .tarjeta-stats {
+  border: 1px solid #7eb5dc;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 1px 1px 0 rgba(0,0,0,.05);
+}
+
+html[data-tema="claro"] .tarjeta-stats-titulo {
+  padding: 7px 8px;
+  background: var(--mj-blue);
+  border-bottom: 1px solid var(--mj-blue-dark);
+  color: #fff;
+  font: bold 12px Verdana, Geneva, Tahoma, Arial, sans-serif;
+}
+
+html[data-tema="claro"] .tarjeta-stats .estadisticas {
+  padding: 4px 8px 7px;
+}
+
+html[data-tema="claro"] .tarjeta-stats .estadisticas > div {
+  min-height: 0;
+  padding: 6px 0;
+  border-bottom: 1px solid #d6e7f4;
+}
+
+html[data-tema="claro"] .tarjeta-stats .estadisticas h3 {
+  color: #555;
+  font: normal 10px Arial, Helvetica, sans-serif;
+}
+
+html[data-tema="claro"] .tarjeta-stats .estadisticas > div > p {
+  color: #333;
+  font: bold 10px Arial, Helvetica, sans-serif;
+}
+
+html[data-tema="claro"] .tarjeta-stats .barra-xp {
+  height: 7px;
+  margin-top: 6px;
+  border: 1px solid #c3d9e8;
+  border-radius: 1px;
+  background: #eef6fb;
+}
+
+html[data-tema="claro"] .tarjeta-stats #progresoXP {
+  background: var(--mj-blue);
+  border-radius: 0;
+}
+
+html[data-tema="claro"] .tarjeta-stats #textoXP {
+  color: #777;
+  font: 9px Arial, Helvetica, sans-serif;
+}
+
+/* Menú del perfil: barra horizontal azul clásica */
+/* NOTA: el layout/color real del menú de pestañas en modo claro lo
+   define css/perfil-macrojuegos-light.css (se carga después que este
+   archivo). El bloque que estaba acá duplicaba las mismas reglas con
+   otro diseño (texto oculto + contenido generado por ::after), y al
+   cargarse perfil-macrojuegos-light.css después, ese archivo volvía a
+   mostrar el texto original de los botones sin quitar el ::after de
+   acá, dejando cada pestaña con el texto repetido dos veces
+   ("HomeInicio", "FavoritosFavoritos", etc). Se eliminó para que solo
+   quede un único origen de verdad para el menú de pestañas. */
+
+/* Cabecera del usuario: no más pastilla púrpura */
+html[data-tema="claro"] .perfil-datos-cabecera {
+  display: block;
+  margin: 0;
+  padding: 9px 12px 7px;
+  border: 1px solid var(--mj-border);
+  border-top: 0;
+  background: linear-gradient(to bottom, #f8fcff 0%, #e3f2fc 100%);
+}
+
+html[data-tema="claro"] .perfil-datos-cabecera h1 {
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--mj-blue-dark);
+  font: bold 18px Verdana, Geneva, Tahoma, Arial, sans-serif;
+  text-shadow: none;
+}
+
+/* Contenido tipo panel de foro/portal */
+html[data-tema="claro"] .contenido-tab {
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid var(--mj-border);
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: none;
+  color: var(--mj-text);
+}
+
+html[data-tema="claro"] .contenido-tab > h2 {
+  margin: 0 -12px 10px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--mj-border);
+  background: var(--mj-blue-soft);
+  color: var(--mj-blue-dark);
+  font: bold 13px Verdana, Geneva, Tahoma, Arial, sans-serif;
+}
+
+html[data-tema="claro"] .contenido-tab > p {
+  color: #555;
+  font: 11px Arial, Helvetica, sans-serif;
+  line-height: 1.55;
+}
+
+/* Inicio / biografía */
+html[data-tema="claro"] .perfil-caja-info {
+  margin-bottom: 9px;
+  padding: 10px 12px;
+  border: 1px solid var(--mj-border);
+  border-left: 4px solid var(--mj-blue);
+  border-radius: 2px;
+  background: var(--mj-blue-pale);
+}
+
+html[data-tema="claro"] .perfil-caja-info .biografia {
+  margin: 0 0 8px;
+  color: #444;
+  font: 11px/1.55 Arial, Helvetica, sans-serif;
+}
+
+html[data-tema="claro"] .perfil-btn-editar {
+  padding: 5px 9px;
+  border: 1px solid var(--mj-blue-dark);
+  border-radius: 2px;
+  background: var(--mj-blue);
+  color: #fff;
+  font: bold 10px Arial, Helvetica, sans-serif;
+  box-shadow: none;
+}
+
+html[data-tema="claro"] .perfil-btn-editar:hover {
+  transform: none;
+  filter: brightness(1.06);
+}
+
+html[data-tema="claro"] .perfil-barra-comentarios {
+  min-height: 27px;
+  padding: 6px 9px;
+  border: 1px solid #0d5da8;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #65afe4 0%, #167ac6 100%);
+  color: #fff;
+  font: bold 10px Arial, Helvetica, sans-serif;
+  box-shadow: none;
+}
+
+html[data-tema="claro"] .perfil-preview-comentarios {
+  margin-top: 7px;
+}
+
+/* Acciones / formularios */
+html[data-tema="claro"] .perfil-acciones {
+  gap: 5px;
+  margin-bottom: 7px;
+}
+
+html[data-tema="claro"] .perfil-acciones button,
+html[data-tema="claro"] .perfil-acciones a {
+  border-radius: 2px !important;
+  font: bold 10px Arial, Helvetica, sans-serif !important;
+}
+
+/* Todos los botones e inputs dentro de las secciones: planos y compactos */
+html[data-tema="claro"] .contenido-tab button,
+html[data-tema="claro"] .contenido-tab input,
+html[data-tema="claro"] .contenido-tab textarea,
+html[data-tema="claro"] .contenido-tab select {
+  border-radius: 2px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html[data-tema="claro"] .contenido-tab input,
+html[data-tema="claro"] .contenido-tab textarea,
+html[data-tema="claro"] .contenido-tab select {
+  border: 1px solid #a8c9df;
+  background: #fff;
+  color: #333;
+}
+
+/* Evita que los módulos modernos de identidad vuelvan a teñir el perfil
+   clásico cuando estamos en modo claro. */
+html[data-tema="claro"] .mr-identidad-hero,
+html[data-tema="claro"] .mr-identidad-panel,
+html[data-tema="claro"] .mr-identidad-stat {
+  border-radius: 2px;
+  box-shadow: none;
+  background: #fff;
+  border-color: var(--mj-border);
+}
+
+html[data-tema="claro"] .mr-identidad-hero {
+  background: var(--mj-blue-pale);
+}
+
+html[data-tema="claro"] .mr-identidad-kicker,
+html[data-tema="claro"] .mr-identidad-stat-copy strong {
+  color: var(--mj-blue-dark);
+}
+
+html[data-tema="claro"] .mr-identidad-hero p,
+html[data-tema="claro"] .mr-identidad-stat-copy span,
+html[data-tema="claro"] .mr-identidad-stat-copy small,
+html[data-tema="claro"] .mr-identidad-panel-title small,
+html[data-tema="claro"] .mr-identidad-empty,
+html[data-tema="claro"] .mr-identidad-loading {
+  color: #666;
+}
+
+/* Responsive: conservar la estética en pantallas chicas */
+@media (max-width: 900px) {
+  html[data-tema="claro"] .perfil-cuerpo {
+    grid-template-columns: 1fr;
+  }
+
+  html[data-tema="claro"] .perfil-sidebar {
+    width: 178px;
+    margin: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  html[data-tema="claro"] .perfil {
+    padding: 8px 7px 25px;
+  }
+
+  html[data-tema="claro"] .perfil-sidebar {
+    width: min(178px, 100%);
+    margin: 0 auto;
+  }
+
+  html[data-tema="claro"] .menu-perfil .tab {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+}
+
+
+/* ==============================
+   AVATAR PNG ESPECIAL DE ADMINISTRADOR
+   ============================== */
+.admin-avatar-png-box {
+  margin: 14px 0 18px;
+  padding: 14px;
+  border: 1px solid #8b6b1f;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(245, 190, 40, .10), rgba(245, 190, 40, .04));
+}
+.admin-avatar-png-titulo {
+  font-weight: 800;
+  color: #ffd54a;
+  margin-bottom: 6px;
+}
+.admin-avatar-png-box p { margin: 0 0 10px; color: #cbd5e1; font-size: 13px; }
+.admin-avatar-png-controles { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.admin-avatar-png-controles input[type="file"] { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
+.admin-avatar-png-label,
+#guardarAdminAvatarPng,
+#quitarAdminAvatarPng {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:34px; padding:7px 11px; border-radius:7px; border:1px solid #4b5c80;
+  background:#131d31; color:#f8fafc; cursor:pointer; font-weight:700; font-size:12px;
+}
+.admin-avatar-png-label:hover,
+#guardarAdminAvatarPng:hover,
+#quitarAdminAvatarPng:hover { background:#1c2942; }
+#guardarAdminAvatarPng { border-color:#7a5611; background:linear-gradient(#edbf3c,#c99114); color:#15110a; }
+.admin-avatar-png-preview { margin-top:12px; min-height:56px; display:flex; align-items:center; gap:10px; }
+.admin-avatar-png-preview img { width:96px; height:96px; object-fit:contain; background:#0b1020; border:1px solid #34405f; border-radius:8px; }
+.admin-avatar-png-estado { margin-top:8px; min-height:18px; font-size:12px; color:#9fb0c9; }

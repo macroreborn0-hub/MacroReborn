@@ -1,0 +1,1044 @@
+/* ==========================================================================
+   MACRO REBORN — COMUNIDAD + RANKING (página combinada)
+   Usa los tokens de css/inicio.css (:root, .navbar, .pie-footer, etc), pero
+   los REDEFINE acá abajo con la paleta púrpura de la foto de referencia.
+   Como css/comunidad.css, css/insignias.css y css/buscador.css ya pintan
+   todo con var(--bg-panel), var(--clasico-borde), var(--text-main), etc,
+   con solo cambiar el VALOR de esas variables toda la página (navbar,
+   footer, tarjetas de comunidad, buscador...) adopta el mismo look, sin
+   tocar ni un archivo de esos.
+   El botón de modo claro/oscuro del sitio sigue funcionando acá: :root
+   pinta el oscuro (paleta de la foto de referencia) y "html[data-tema=
+   claro]" pinta su propia variante clara, ambas dentro de la misma
+   identidad púrpura.
+   ========================================================================== */
+
+/* Los tokens visuales pertenecen a MRTheme / css/inicio.css.
+   Esta página ya no redefine --bg-*, --text-* ni --gold-* localmente,
+   evitando recursiones y desincronización con las paletas globales. */
+
+.mr-root {
+  background: var(--bg-base);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   BLOQUE "HERO" DEL RANKING — mismos tokens de arriba (ya redefinidos a
+   púrpura), fusionado visualmente con el resto de la página en vez de
+   quedar como una caja aparte con otro fondo.
+   ========================================================================== */
+
+.rk-hero {
+  --rk-texto: var(--text-main);
+  --rk-texto-muted: var(--text-muted);
+  --rk-panel: var(--bg-panel);
+  --rk-panel-borde: var(--line);
+  --rk-subida: var(--green);
+  --rk-bajada: var(--danger);
+  --rk-sin-cambio: var(--text-muted);
+
+  position: relative;
+  overflow: hidden;
+  padding: 40px 24px 56px;
+  background:
+    radial-gradient(ellipse 900px 460px at 50% -10%, rgba(240, 180, 41, 0.16), transparent 60%),
+    linear-gradient(160deg, var(--bg-panel-alt) 0%, var(--bg-base) 55%, var(--bg-base) 100%);
+}
+
+.rk-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 0%, black 40%, transparent 90%);
+  pointer-events: none;
+}
+
+.rk-encabezado {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.rk-titulo {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 4vw, 34px);
+  text-align: center;
+  margin: 0;
+  color: var(--rk-texto);
+  text-shadow: 0 0 22px rgba(240, 180, 41, 0.25);
+}
+
+.rk-boton-logros {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 13.5px;
+  color: var(--text-on-accent);
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold) 60%, var(--gold-deep));
+  border: none;
+  border-radius: 10px;
+  padding: 11px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rk-boton-logros:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(240, 180, 41, 0.3);
+}
+
+.rk-boton-logros.rk-activo {
+  background: linear-gradient(135deg, var(--cyan), #0ea5e9 70%);
+  color: #04263a;
+}
+
+/* ---- Buscador ---- */
+
+.rk-buscador-caja {
+  position: relative;
+  max-width: 440px;
+  margin: 0 auto 34px;
+}
+
+.rk-buscador {
+  display: block;
+  width: 100%;
+  padding: 13px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--rk-panel-borde);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--rk-texto);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rk-buscador:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(240, 180, 41, 0.16);
+}
+
+.rk-buscador::placeholder {
+  color: var(--rk-texto-muted);
+}
+
+/* ==========================================================================
+   PODIO TOP 6
+   ========================================================================== */
+
+.rk-podio6 {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto 30px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.rk-podio-card {
+  position: relative;
+  background: linear-gradient(180deg, var(--rk-panel), #180b31);
+  border: 2px solid var(--rk-panel-borde);
+  border-radius: 14px;
+  padding: 34px 12px 16px;
+  text-align: center;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rk-podio-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+}
+
+.rk-podio-numero {
+  position: absolute;
+  top: -12px;
+  left: 12px;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 14px;
+  border-radius: 8px;
+  color: var(--text-on-accent);
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold) 60%, var(--gold-deep));
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+}
+
+.rk-podio-card[data-puesto="2"] .rk-podio-numero,
+.rk-podio-card[data-puesto="3"] .rk-podio-numero {
+  background: linear-gradient(135deg, var(--podio-plata), #9fb0c9);
+}
+
+.rk-podio-card[data-puesto="4"] .rk-podio-numero,
+.rk-podio-card[data-puesto="5"] .rk-podio-numero,
+.rk-podio-card[data-puesto="6"] .rk-podio-numero {
+  background: linear-gradient(135deg, var(--cyan), #6366f1);
+  color: #04182b;
+}
+
+.rk-podio-card[data-puesto="1"] {
+  border-color: var(--gold);
+  box-shadow: 0 16px 36px rgba(240, 180, 41, 0.22);
+}
+
+.rk-corona {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 26px;
+  filter: drop-shadow(0 0 10px rgba(240, 180, 41, 0.6));
+}
+
+.rk-podio-avatar {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 10px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 2px solid var(--rk-panel-borde);
+  background:
+    radial-gradient(circle at 50% 30%, rgba(240, 180, 41, 0.14), transparent 65%),
+    var(--bg-deep);
+}
+
+.rk-podio-card[data-puesto="1"] .rk-podio-avatar {
+  border-color: var(--gold);
+}
+
+.rk-podio-avatar .capa-rk {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.rk-podio-avatar img:not(.capa-rk) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rk-podio-nombre {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--rk-texto);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 0 4px;
+}
+
+.rk-podio-stat {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--rk-texto-muted);
+  line-height: 1.3;
+  margin: 0 0 4px;
+}
+
+.rk-delta {
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.rk-delta.rk-sube { color: var(--rk-subida); }
+.rk-delta.rk-baja { color: var(--rk-bajada); }
+.rk-delta.rk-neutro { color: var(--rk-sin-cambio); }
+
+/* ==========================================================================
+   CUERPO EN 2 COLUMNAS (podio a la izquierda, panel lateral a la
+   derecha) — layout nuevo, mismo alto nivel que el video de
+   referencia. Con el sitio ya angosto (pantallas chicas) colapsa a
+   una sola columna, ver @media más abajo.
+   ========================================================================== */
+
+.rk-cuerpo {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 22px;
+  align-items: start;
+}
+
+.rk-columna-podio {
+  min-width: 0;
+}
+
+.rk-columna-lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: sticky;
+  top: 84px;
+}
+
+/* ==========================================================================
+   RESTO DEL RANKING (puestos 7+), ahora PAGINADO de a 20 (2 filas de
+   10) con flechas ▲ / ▼ en vez de mostrar todo en un scroll largo.
+   ========================================================================== */
+
+.rk-resto-paginado {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rk-flecha {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--rk-panel-borde);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--rk-texto);
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.rk-flecha:hover:not(:disabled) {
+  background: var(--bg-panel-alt);
+  border-color: var(--gold-deep);
+}
+
+.rk-flecha:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.rk-lista-resto {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  /* minmax(0, 1fr) en vez de 1fr a secas: sin el "0", cada columna se
+     niega a achicarse por debajo del contenido (avatar + texto de la
+     tarjeta) y con 10 columnas eso no entra en el ancho disponible al
+     lado de la barra lateral -> el grid se desborda por encima de
+     ".rk-columna-lateral" (bug visto en PC/laptop, ~980px-1400px). */
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rk-mini-card {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--rk-panel-borde);
+  border-radius: 12px;
+  padding: 12px 6px 10px;
+  text-align: center;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.rk-mini-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-deep);
+}
+
+/* Antes era un círculo (border-radius:50%). Ahora usa el mismo marco
+   cuadrado ornamentado con destellos en las esquinas que el resto de
+   los avatares del sitio (ver la misma idea en css/perfil.css,
+   .avatar-mini). */
+.rk-mini-avatar {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 8px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 2px solid var(--rk-panel-borde);
+  box-shadow: inset 0 0 0 2px var(--gold-deep);
+  background: var(--bg-deep);
+}
+
+.rk-mini-avatar::before,
+.rk-mini-avatar::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at 35% 35%, var(--gold-bright) 0%, var(--gold) 55%, var(--gold-deep) 100%);
+  clip-path: polygon(50% 0%, 61% 38%, 100% 50%, 61% 62%, 50% 100%, 39% 62%, 0% 50%, 39% 38%);
+  filter: drop-shadow(0 0 2px rgba(240, 180, 41, .8));
+  pointer-events: none;
+  z-index: 2;
+}
+.rk-mini-avatar::before { top: 1px; left: 1px; }
+.rk-mini-avatar::after { bottom: 1px; right: 1px; }
+
+.rk-mini-avatar .capa-rk-mini {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.rk-mini-avatar img:not(.capa-rk-mini) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rk-mini-nombre {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--rk-texto);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 0 2px;
+}
+
+.rk-mini-puesto {
+  font-size: 11px;
+  color: var(--rk-texto-muted);
+  font-weight: 700;
+  margin: 0 0 2px;
+}
+
+.rk-mini-stat {
+  font-size: 11px;
+  color: var(--rk-texto-muted);
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 0 2px;
+}
+
+/* ==========================================================================
+   BANNER "ÚNETE Y DESAFÍA A LA COMUNIDAD"
+   ========================================================================== */
+
+.rk-banner-unite {
+  position: relative;
+  max-width: 900px;
+  margin: 10px auto 0;
+  background: linear-gradient(135deg, #4c2a8c, #7b3fb8);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  padding: 20px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+}
+
+.rk-banner-unite p {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  max-width: 480px;
+}
+
+.rk-banner-unite .rk-boton-unite {
+  display: inline-block;
+  white-space: nowrap;
+  background: #ffffff;
+  color: #4c2a8c;
+  font-weight: 900;
+  font-size: 13.5px;
+  letter-spacing: 0.3px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rk-banner-unite .rk-boton-unite:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+}
+
+/* Se oculta con JS (comunidad-ranking.js) cuando hay sesión iniciada */
+.rk-banner-unite.rk-oculto {
+  display: none;
+}
+
+/* ==========================================================================
+   PANEL GENÉRICO (tarjeta base reusada por el panel de pestañas,
+   conectados, centro de avatares, tienda y ayuda)
+   ========================================================================== */
+
+.cr-panel {
+  background: linear-gradient(180deg, var(--bg-panel), #180b31);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.cr-titulo-seccion {
+  font-family: var(--font-display);
+  font-size: 15px;
+  margin: 0 0 8px;
+  color: var(--text-main);
+}
+
+.cr-texto-suave {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+
+.cr-subtitulo {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--text-muted);
+  margin: 16px 0 10px;
+}
+
+/* ---- Pestañas General / Moderación / Rangos ---- */
+
+.cr-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+
+.cr-tab {
+  flex: 1 1 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 7px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.cr-tab:hover {
+  color: var(--text-main);
+}
+
+.cr-tab.cr-tab-activa {
+  background: var(--bg-panel-alt);
+  border-color: var(--line-hover);
+  color: var(--gold-bright);
+}
+
+.cr-tab-panel {
+  display: none;
+}
+
+.cr-tab-panel.cr-tab-panel-activo {
+  display: block;
+}
+
+.cr-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.cr-stat:last-of-type {
+  border-bottom: none;
+}
+
+.cr-stat-label {
+  color: var(--text-muted);
+}
+
+.cr-stat-valor {
+  font-weight: 900;
+  font-family: var(--font-display);
+  color: var(--text-main);
+}
+
+.cr-stat-verde {
+  color: var(--green);
+}
+
+.cr-recien-llegados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cr-recien-llegados .cr-avatar-chico,
+.cr-lista-staff .cr-avatar-chico {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid var(--line);
+  background: var(--bg-deep);
+  flex: 0 0 auto;
+}
+
+.cr-recien-llegados .cr-avatar-chico img,
+.cr-lista-staff .cr-avatar-chico img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.cr-recien-llegados .cr-avatar-chico .cr-capa-chica {
+  object-fit: contain;
+}
+
+.cr-vacio {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  padding: 6px 0;
+}
+
+/* ---- Moderación ---- */
+
+.cr-lista-staff {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cr-fila-staff {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cr-fila-staff .cr-staff-info {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.cr-fila-staff .cr-staff-nombre {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cr-fila-staff .cr-staff-rol {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.cr-punto-estado {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: var(--text-placeholder);
+}
+
+.cr-punto-estado.cr-conectado {
+  background: var(--green);
+  box-shadow: 0 0 6px rgba(53, 212, 136, 0.6);
+}
+
+/* ---- Rangos ---- */
+
+.cr-lista-rangos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cr-fila-rango {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+}
+
+.cr-fila-rango .cr-rango-nombre {
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.cr-fila-rango .cr-rango-rango {
+  color: var(--text-muted);
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+/* ---- Conectados (panel lateral) ---- */
+
+.cr-panel-titulo {
+  font-family: var(--font-display);
+  font-size: 14px;
+  margin: 0 0 12px;
+  color: var(--text-main);
+}
+
+.cr-grid-conectados {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding-right: 2px;
+}
+
+.cr-grid-conectados a {
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border: 2px solid var(--line);
+  background: var(--bg-deep);
+}
+
+.cr-grid-conectados img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.cr-grid-conectados .cr-capa-chica {
+  object-fit: contain;
+}
+
+.cr-buscar-usuarios {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  font-size: 12.5px;
+  outline: none;
+}
+
+.cr-buscar-usuarios:focus {
+  border-color: var(--gold);
+}
+
+/* ==========================================================================
+   CENTRO DE AVATARES + TIENDA + AYUDA (3 columnas)
+   ========================================================================== */
+
+.cr-seccion-media {
+  max-width: 1180px;
+  margin: 0 auto 40px;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 260px;
+  gap: 18px;
+  align-items: start;
+}
+
+.cr-monedas {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 900;
+  font-family: var(--font-display);
+  color: var(--gold-bright);
+  background: rgba(240, 180, 41, 0.1);
+  border: 1px solid rgba(240, 180, 41, 0.3);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.cr-boton-avatares {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold) 60%, var(--gold-deep));
+  color: var(--text-on-accent);
+  font-weight: 900;
+  font-size: 13px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+.cr-boton-avatares:hover {
+  transform: translateY(-2px);
+}
+
+.cr-boton-secundario {
+  background: linear-gradient(135deg, var(--cyan), #0ea5e9 70%);
+  color: #04263a;
+}
+
+.cr-grid-tienda {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.cr-item-tienda {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+}
+
+.cr-item-tienda-imagen {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  background: var(--bg-deep);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cr-item-tienda-imagen img {
+  max-width: 82%;
+  max-height: 82%;
+  object-fit: contain;
+}
+
+.cr-item-tienda-nombre {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cr-item-tienda-precio {
+  font-size: 11px;
+  color: var(--gold-bright);
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+
+.cr-item-tienda-boton {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 4px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold) 60%, var(--gold-deep));
+  color: var(--text-on-accent);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.cr-item-tienda-boton:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.cr-item-tienda-boton:disabled {
+  background: var(--bg-panel-alt);
+  color: var(--text-muted);
+  cursor: default;
+}
+
+.cr-item-tienda-boton.cr-comprada {
+  background: rgba(53, 212, 136, 0.16);
+  color: var(--green);
+}
+
+/* ==========================================================================
+   FEED "¿QUÉ ESTÁ OCURRIENDO AHORA?"
+   ========================================================================== */
+
+.cr-seccion-actividad {
+  max-width: 1180px;
+  margin: 0 auto 50px;
+  padding: 0 24px;
+}
+
+.cr-titulo-actividad {
+  font-family: var(--font-display);
+  font-size: 18px;
+  text-align: center;
+  margin: 0 0 20px;
+  color: var(--text-main);
+}
+
+.cr-feed-actividad {
+  column-count: 3;
+  column-gap: 18px;
+}
+
+.cr-feed-item {
+  break-inside: avoid;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 10px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.cr-feed-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid var(--line);
+  background: var(--bg-deep);
+  flex: 0 0 auto;
+}
+
+.cr-feed-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.cr-feed-avatar .cr-capa-chica {
+  object-fit: contain;
+}
+
+.cr-feed-texto {
+  min-width: 0;
+}
+
+.cr-feed-texto p {
+  margin: 0 0 4px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+.cr-feed-texto strong {
+  color: var(--text-main);
+}
+
+.cr-feed-hora {
+  font-size: 10.5px;
+  color: var(--text-placeholder);
+}
+
+.nav-links a.activo,
+.nav-links a.activa-nav {
+  color: var(--gold-bright);
+  background: var(--bg-panel-alt);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 980px) {
+  .rk-podio6 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .rk-cuerpo {
+    grid-template-columns: 1fr;
+  }
+
+  .rk-columna-lateral {
+    position: static;
+  }
+
+  .rk-lista-resto {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .cr-seccion-media {
+    grid-template-columns: 1fr;
+  }
+
+  .cr-feed-actividad {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 620px) {
+  .rk-hero {
+    padding: 30px 14px 40px;
+  }
+
+  .rk-podio6 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .rk-lista-resto {
+    grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+    gap: 10px;
+  }
+
+  .rk-mini-avatar {
+    width: 46px;
+    height: 46px;
+  }
+
+  .rk-banner-unite {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .rk-resto-paginado {
+    flex-wrap: wrap;
+  }
+
+  .cr-grid-conectados {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .cr-feed-actividad {
+    column-count: 1;
+  }
+}
+
+/* Tanda 4 — competición y retención */
+.rk-kicker{display:inline-block;font-size:11px;letter-spacing:.16em;font-weight:900;color:var(--cyan);margin-bottom:5px}.rk-subtitulo-hero{margin:7px 0 0;color:var(--rk-texto-muted);font-size:14px;max-width:650px}.rk-acciones-hero{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}.rk-mi-posicion{font-size:13px;font-weight:800;color:var(--rk-texto-muted);padding:9px 12px;border:1px solid var(--rk-panel-borde);border-radius:999px;background:rgba(255,255,255,.03)}.rk-modos{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 auto 20px}.rk-modo{border:1px solid var(--rk-panel-borde);background:rgba(255,255,255,.035);color:var(--rk-texto-muted);border-radius:999px;padding:10px 15px;font:inherit;font-weight:800;cursor:pointer}.rk-modo:hover,.rk-modo.activo{color:var(--text-main);border-color:var(--accent);background:var(--warning-bg)}.rk-evento{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1180px;margin:0 auto 28px;padding:18px 20px;border:1px solid var(--line-hover);border-radius:18px;background:linear-gradient(100deg,var(--warning-bg),var(--focus-ring));box-shadow:0 12px 35px rgba(0,0,0,.12)}.rk-evento h2{margin:5px 0 4px;font-size:18px;color:var(--text-main)}.rk-evento p{margin:0;color:var(--rk-texto-muted);font-size:13px}.rk-evento-badge{font-size:10px;font-weight:900;letter-spacing:.12em;color:var(--cyan)}.rk-evento-cta{flex:none;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:900;color:var(--text-on-accent);background:var(--accent-color)}@media (max-width:760px){.rk-evento{align-items:flex-start;flex-direction:column}.rk-acciones-hero{justify-content:flex-start}.rk-subtitulo-hero{font-size:13px}}

@@ -1,0 +1,129 @@
+/* ==========================================================================
+   MACRO REBORN — USUARIO (perfil público)
+   Complementa css/perfil.css (que ya cubre la mayoría de los componentes
+   compartidos, ahora con el look "clásico" de portal). Acá solo va lo
+   específico de ver el perfil de otra persona.
+   ========================================================================== */
+
+/* ---- Línea de última conexión (bajo la biografía) ---- */
+
+.meta-conexion {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---- Botón "Agregar amigo" ----
+   El HTML ya NO trae estilos inline: los estilos base viven acá. El
+   JS (js/usuario.js) sigue manejando el estado (texto, disabled y
+   algunos colores puntuales vía .style.*), pero como ya no pisa un
+   style="" cargado desde el HTML, esta base siempre se respeta. */
+
+/* Dentro de .perfil-acciones (fila de la cabecera, ver css/perfil.css)
+   los botones van en línea, sin el margen superior que tenían cuando
+   se apilaban debajo de la biografía. */
+.perfil-acciones #agregarAmigo,
+.perfil-acciones #bloquearUsuario {
+  margin-top: 0;
+}
+
+#agregarAmigo {
+  margin-top: 18px;
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 65%, var(--gold-deep) 100%);
+  color: var(--text-on-accent);
+  border: 2px solid var(--gold-deep);
+  padding: 11px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 800;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+#agregarAmigo:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+#agregarAmigo:disabled {
+  cursor: default;
+  filter: grayscale(0.3);
+}
+
+@media (max-width: 900px) {
+  #agregarAmigo {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ---- Botón "Bloquear a este usuario" ----
+   Mismo tamaño/forma que #agregarAmigo pero en tono de alerta, para
+   que se distinga claramente como una acción distinta. El estado
+   (texto/colores según ya esté bloqueado o no) lo maneja js/usuario.js. */
+
+#bloquearUsuario {
+  display: block;
+  margin-top: 10px;
+  background: transparent;
+  color: #f87171;
+  border: 2px solid #f87171;
+  padding: 9px 24px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  transition: transform 0.15s ease, filter 0.15s ease, background 0.15s ease;
+}
+
+#bloquearUsuario:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #f8717122;
+}
+
+#bloquearUsuario:disabled {
+  cursor: default;
+  filter: grayscale(0.2);
+}
+
+#bloquearUsuario.ya-bloqueado {
+  color: var(--text-muted);
+  border-color: var(--line);
+}
+
+@media (max-width: 900px) {
+  #bloquearUsuario {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+
+.aviso-perfil-bloqueado {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 10px 14px;
+  border: 1px solid #f87171;
+  border-radius: 10px;
+  background: #f8717114;
+  color: #fecaca;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+  .aviso-perfil-bloqueado {
+    width: 100%;
+    margin: 8px 0 0;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* Perfil público: cabecera orientada a descubrimiento */
+.perfil .perfil-datos-cabecera .perfil-resumen-rapido > div{background:linear-gradient(180deg,var(--bg-panel),var(--bg-deep))}
+.perfil-acciones{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}
+.perfil-acciones .aviso-perfil-bloqueado{flex-basis:auto}

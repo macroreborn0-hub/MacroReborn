@@ -1,0 +1,574 @@
+/* ======================================================================
+   PERFIL MACROJUEGOS CLÁSICO — SOLO MODO CLARO
+   ----------------------------------------------------------------------
+   Esta hoja es exclusivamente visual. No cambia IDs, eventos, URLs,
+   datos, autenticación, sesión ni lógica de perfil. El modo oscuro no
+   recibe ninguna regla de esta hoja.
+   ====================================================================== */
+
+html[data-tema="claro"] body.mr-root {
+  background: #f4f4f4 !important;
+  color: #203b66 !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+/* -------------------------------
+   NAVBAR: se queda igual que en modo oscuro
+   ----------------------------------------------------------------------
+   El rediseño "MacroJuegos clásico" es solo para la sección de perfil.
+   El navbar no forma parte de este cambio, así que acá anulamos los
+   overrides genéricos de modo claro (los de css/theme-canonical.css)
+   restaurando, únicamente dentro de .navbar, las mismas variables que
+   usa el modo oscuro por defecto. Como el resto de las reglas del
+   navbar en css/inicio.css ya están escritas con var(--...), alcanza
+   con resetear las variables acá para que todo lo que cuelga del
+   navbar (links inyectados, dropdown de invitado, campanita, etc.)
+   vuelva a verse exactamente como en modo oscuro.
+   ------------------------------- */
+html[data-tema="claro"] .navbar {
+  --bg-panel: #241145;
+  --bg-panel-alt: #2f1a5c;
+  --line: #3d2166;
+  --line-hover: #55348f;
+  --navbar-bg: rgba(21, 10, 40, 0.92);
+  --gold: #f0b429;
+  --gold-bright: #ffd666;
+  --gold-deep: #a8710f;
+  --cyan: #38bdf8;
+  --green: #35d488;
+  --text-main: #f4f1fb;
+  --text-muted: #b6a9d6;
+  --text-secondary: #d8cff0;
+  --text-placeholder: #8b7fb0;
+  --danger: #ff6b6b;
+  --success-light: #86efac;
+  --sombra-suave: 0 14px 30px rgba(0, 0, 0, .45);
+
+  background: var(--navbar-bg) !important;
+  border-color: var(--gold) !important;
+}
+
+html[data-tema="claro"] .navbar .nav-logo {
+  color: var(--gold) !important;
+}
+
+html[data-tema="claro"] .navbar .nav-links a,
+html[data-tema="claro"] .navbar .nav-categorias a {
+  color: var(--text-secondary) !important;
+}
+
+html[data-tema="claro"] .navbar .nav-boton-comunidad {
+  color: #fff !important;
+}
+
+html[data-tema="claro"] .navbar a:hover {
+  color: var(--gold-bright) !important;
+}
+
+html[data-tema="claro"] .navbar .nav-categorias a.activa-nav,
+html[data-tema="claro"] .navbar .nav-categorias a.activa-nav:hover {
+  color: #fff !important;
+}
+
+@media (max-width: 768px) {
+  html[data-tema="claro"] .navbar .nav-links,
+  html[data-tema="claro"] .navbar .nav-categorias {
+    background: var(--bg-panel) !important;
+    border-color: var(--line) !important;
+  }
+}
+
+/* -------------------------------
+   CONTENEDOR DEL PERFIL
+   ------------------------------- */
+html[data-tema="claro"] .perfil {
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+  padding: 96px 8px 50px !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+html[data-tema="claro"] .perfil-migas {
+  margin: 0 0 7px !important;
+  gap: 7px !important;
+  color: #38537a !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+}
+
+html[data-tema="claro"] .perfil-migas-texto strong {
+  color: #27436f !important;
+}
+
+html[data-tema="claro"] .perfil-volver {
+  width: 38px !important;
+  height: 38px !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: #5bc0ed !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  font-size: 29px !important;
+  font-weight: 400 !important;
+}
+
+/* -------------------------------
+   DOS COLUMNAS
+   ------------------------------- */
+html[data-tema="claro"] .perfil-cuerpo {
+  grid-template-columns: 312px minmax(0, 1fr) !important;
+  gap: 10px !important;
+  align-items: start !important;
+}
+
+html[data-tema="claro"] .perfil-sidebar {
+  position: static !important;
+  gap: 10px !important;
+}
+
+/* -------------------------------
+   TARJETA DEL USUARIO — referencia
+   ------------------------------- */
+html[data-tema="claro"] .tarjeta-avatar {
+  position: relative !important;
+  width: 312px !important;
+  border: 2px solid #7e9caf !important;
+  border-radius: 5px !important;
+  background: #102d58 !important;
+  box-shadow: 0 0 2px rgba(0,0,0,.55) !important;
+  overflow: hidden !important;
+}
+
+html[data-tema="claro"] .tarjeta-avatar .avatar {
+  width: 100% !important;
+  aspect-ratio: 327 / 505 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #102d58 !important;
+  overflow: hidden !important;
+}
+
+html[data-tema="claro"] .tarjeta-avatar .avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+html[data-tema="claro"] .tarjeta-avatar-chapas {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 5 !important;
+  padding: 6px 7px !important;
+  pointer-events: none !important;
+}
+
+html[data-tema="claro"] .tarjeta-avatar-chapas > * {
+  position: absolute !important;
+  pointer-events: none !important;
+}
+
+html[data-tema="claro"] .tarjeta-chapa-nivel.nivel {
+  top: 0 !important;
+  left: 0 !important;
+  width: 61px !important;
+  height: 61px !important;
+  min-width: 61px !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  border: 1px solid #7233ae !important;
+  background: #b13cf0 !important;
+  color: #fff !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.45) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,.45) !important;
+  transform: translate(-1px,-1px) !important;
+}
+
+html[data-tema="claro"] .tarjeta-chapa-estado.estado {
+  top: 4px !important;
+  right: 6px !important;
+  max-width: 92px !important;
+  margin: 0 !important;
+  padding: 4px 8px !important;
+  border-radius: 1px !important;
+  border: 1px solid #2c3e50 !important;
+  background: #626f7c !important;
+  color: #fff !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+html[data-tema="claro"] .tarjeta-avatar-chapas::after {
+  content: "♥♥♥";
+  position: absolute;
+  right: 7px;
+  top: 35px;
+  color: #ff2020;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 1px #000;
+}
+
+html[data-tema="claro"] .tarjeta-avatar-pie {
+  position: absolute !important;
+  left: 7px !important;
+  right: 7px !important;
+  bottom: 4px !important;
+  z-index: 6 !important;
+  min-height: 47px !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 7px 72px 7px 70px !important;
+  background: rgba(124, 46, 183, .67) !important;
+  border: 0 !important;
+  text-align: left !important;
+}
+
+html[data-tema="claro"] .tarjeta-avatar-pie::after {
+  content: "★";
+  position: absolute;
+  right: -7px;
+  bottom: -7px;
+  width: 57px;
+  height: 57px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffc300;
+  color: #fff;
+  clip-path: polygon(50% 0%, 61% 28%, 92% 17%, 74% 45%, 100% 61%, 68% 64%, 69% 100%, 49% 75%, 27% 100%, 31% 66%, 0% 60%, 25% 43%, 8% 16%, 40% 28%);
+  font-size: 25px;
+  text-shadow: 0 1px 1px rgba(0,0,0,.35);
+}
+
+html[data-tema="claro"] .tarjeta-avatar-nombre {
+  color: #fff !important;
+  font-family: Arial Black, Arial, sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.65) !important;
+}
+
+/* Insignias modernas: no pertenecen a la referencia clásica. */
+html[data-tema="claro"] .insignias-usuario,
+html[data-tema="claro"] #mrIdentidadHub,
+html[data-tema="claro"] .mr-identidad-hub {
+  display: none !important;
+}
+
+/* -------------------------------
+   ESTADÍSTICAS: compactas, bajo la tarjeta
+   ------------------------------- */
+html[data-tema="claro"] .tarjeta-stats {
+  border: 1px solid #aac2d8 !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+html[data-tema="claro"] .tarjeta-stats-titulo {
+  margin: 0 !important;
+  padding: 8px 10px !important;
+  background: #6c88f0 !important;
+  border-bottom: 1px solid #516ec5 !important;
+  color: #fff !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 15px !important;
+  text-align: left !important;
+}
+
+html[data-tema="claro"] .tarjeta-stats .estadisticas {
+  padding: 2px 10px 7px !important;
+}
+
+html[data-tema="claro"] .tarjeta-stats .estadisticas > div {
+  padding: 7px 0 !important;
+  border-bottom: 1px dotted #ccd6e0 !important;
+}
+
+html[data-tema="claro"] .tarjeta-stats .estadisticas h3 {
+  color: #5b6e84 !important;
+  font-size: 11px !important;
+}
+
+html[data-tema="claro"] .tarjeta-stats .estadisticas > div > p {
+  color: #2b527f !important;
+  font-size: 12px !important;
+}
+
+/* -------------------------------
+   COLUMNA DERECHA
+   ------------------------------- */
+html[data-tema="claro"] .perfil-principal {
+  min-width: 0 !important;
+}
+
+html[data-tema="claro"] .menu-perfil {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 3px !important;
+  position: static !important;
+  top: auto !important;
+  z-index: auto !important;
+  background: #113875 !important;
+  border: 2px solid #efad09 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+html[data-tema="claro"] .menu-perfil .tab {
+  flex: 0 0 auto !important;
+  min-height: 28px !important;
+  margin: 0 !important;
+  padding: 4px 8px !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(255,255,255,.16) !important;
+  border-radius: 0 !important;
+  background: #113875 !important;
+  color: #fff !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  box-shadow: none !important;
+}
+
+html[data-tema="claro"] .menu-perfil .tab:hover {
+  background: #1b4d94 !important;
+  color: #fff !important;
+}
+
+html[data-tema="claro"] .menu-perfil .tab.activa {
+  background: #6f90ff !important;
+  color: #fff !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.3) !important;
+}
+
+/* -------------------------------
+   NOMBRE / BIOGRAFÍA
+   ------------------------------- */
+html[data-tema="claro"] .perfil-datos-cabecera {
+  display: block !important;
+  margin: 0 !important;
+  padding: 8px 8px 4px !important;
+}
+
+html[data-tema="claro"] .perfil-datos-cabecera h1 {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #203b66 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+html[data-tema="claro"] .perfil-caja-info {
+  position: relative !important;
+  min-height: 280px !important;
+  margin: 0 8px 15px !important;
+  padding: 14px 14px 12px !important;
+  background: #dff0fc !important;
+  border: 1px solid #9ab5ca !important;
+  border-left: 1px solid #9ab5ca !important;
+  border-radius: 0 !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.4) !important;
+  overflow: hidden !important;
+}
+
+html[data-tema="claro"] .perfil-caja-info::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 13px;
+  height: 100%;
+  background: linear-gradient(#eef7ff, #d4e7f6);
+  border-left: 1px solid #cad9e5;
+}
+
+html[data-tema="claro"] .perfil-caja-info .biografia {
+  margin: 0 !important;
+  max-width: none !important;
+  padding-right: 18px !important;
+  color: #1f2f43 !important;
+  font-family: "Courier New", Courier, monospace !important;
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+  white-space: pre-line !important;
+}
+
+html[data-tema="claro"] .perfil-btn-editar {
+  margin-top: 8px !important;
+  padding: 4px 8px !important;
+  background: #fff !important;
+  color: #315888 !important;
+  border: 1px solid #90a9c0 !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  font-size: 11px !important;
+}
+
+/* -------------------------------
+   SEPARADOR "ÚLTIMOS COMENTARIOS"
+   ------------------------------- */
+html[data-tema="claro"] .perfil-barra-comentarios {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  width: calc(100% - 84px) !important;
+  margin: 0 auto !important;
+  min-height: 29px !important;
+  padding: 5px 9px !important;
+  background: #6b8cf2 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #fff !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+html[data-tema="claro"] .perfil-preview-comentarios {
+  margin: 0 auto !important;
+  width: calc(100% - 84px) !important;
+}
+
+/* -------------------------------
+   DEMÁS PESTAÑAS: mismos paneles clásicos
+   ------------------------------- */
+html[data-tema="claro"] .contenido-tab {
+  background: #fff !important;
+  border: 1px solid #9ab5ca !important;
+  border-radius: 0 !important;
+  padding: 14px !important;
+  margin: 8px 8px 0 !important;
+  box-shadow: none !important;
+}
+
+html[data-tema="claro"] .contenido-tab > h2 {
+  margin: -14px -14px 12px !important;
+  padding: 7px 9px !important;
+  background: #6b8cf2 !important;
+  border-bottom: 1px solid #5571c9 !important;
+  color: #fff !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+}
+
+html[data-tema="claro"] .contenido-tab > p,
+html[data-tema="claro"] .contenido-tab label,
+html[data-tema="claro"] .contenido-tab li,
+html[data-tema="claro"] .contenido-tab td,
+html[data-tema="claro"] .contenido-tab th {
+  color: #31465f !important;
+}
+
+/* Los iconos emoji de los tabs secundarios no forman parte de la
+   referencia visual; sus textos siguen existiendo en el DOM. */
+html[data-tema="claro"] #actividad-amigos > h2,
+html[data-tema="claro"] #actividad > h2,
+html[data-tema="claro"] #comentarios > h2,
+html[data-tema="claro"] #favoritos > h2,
+html[data-tema="claro"] #ultimos > h2,
+html[data-tema="claro"] #amigos > h2,
+html[data-tema="claro"] #avatares > h2,
+html[data-tema="claro"] #logros > h2,
+html[data-tema="claro"] #config-cuenta > h2 {
+  font-size: 0 !important;
+}
+
+html[data-tema="claro"] #actividad-amigos > h2::after { content:"Actividad de amigos"; }
+html[data-tema="claro"] #actividad > h2::after { content:"Actividad reciente"; }
+html[data-tema="claro"] #comentarios > h2::after { content:"Comentarios"; }
+html[data-tema="claro"] #favoritos > h2::after { content:"Juegos favoritos"; }
+html[data-tema="claro"] #ultimos > h2::after { content:"Últimos juegos jugados"; }
+html[data-tema="claro"] #amigos > h2::after { content:"Amigos"; }
+html[data-tema="claro"] #avatares > h2::after { content:"Mi avatar"; }
+html[data-tema="claro"] #logros > h2::after { content:"Logros"; }
+html[data-tema="claro"] #config-cuenta > h2::after { content:"Configuración de cuenta"; }
+
+html[data-tema="claro"] .contenido-tab > h2::after {
+  font-size: 15px;
+}
+
+/* -------------------------------
+   Ocultar elementos modernos que rompen la referencia clásica
+   ------------------------------- */
+html[data-tema="claro"] .perfil-eyebrow,
+html[data-tema="claro"] .perfil-cabecera-subtexto,
+html[data-tema="claro"] .perfil-bienvenida-grid,
+html[data-tema="claro"] .perfil-mini-panel {
+  display: none !important;
+}
+
+/* Mantener la configuración funcionando, pero sin tarjetas modernas
+   visibles en la vista Home. */
+html[data-tema="claro"] .config-bloque-personalizacion {
+  border-radius: 0 !important;
+}
+
+@media (max-width: 900px) {
+  html[data-tema="claro"] .perfil {
+    padding-top: 70px !important;
+  }
+
+  html[data-tema="claro"] .perfil-cuerpo {
+    grid-template-columns: 1fr !important;
+  }
+
+  html[data-tema="claro"] .perfil-sidebar {
+    width: 312px !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  html[data-tema="claro"] .tarjeta-avatar {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html[data-tema="claro"] .perfil {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+
+  html[data-tema="claro"] .menu-perfil .tab {
+    font-size: 10px !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+
+  html[data-tema="claro"] .perfil-barra-comentarios,
+  html[data-tema="claro"] .perfil-preview-comentarios {
+    width: 100% !important;
+  }
+}

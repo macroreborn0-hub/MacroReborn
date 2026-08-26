@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <link rel="stylesheet" href="css/inicio.css">
+  <meta charset="utf-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MacroReborn Originals — Competición</title>
+  <link rel="stylesheet" href="/css/originales-competicion.css">
+<link rel="stylesheet" href="css/theme-canonical.css">
+<link rel="stylesheet" href="css/navbar-macrojuegos.css">
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="imagenes/logo.png" alt="MacroReborn">
+    MacroReborn
+  </a>
+  <a href="comunidad-ranking.html" class="nav-boton-comunidad">Comunidad</a>
+  <div class="nav-links">
+    <a href="explorar.html">🧭 Explorar</a>
+    <a href="mi-dia.html">🔥 Mi día</a>
+    <a href="progreso.html">🎯 Progreso</a>
+    <a href="liga-global.html">🏆 Ligas</a>
+  </div>
+  <div class="nav-categorias">
+    <a href="chat.html">💬 Chat</a>
+    <a href="amigos.html">👥 Amigos</a>
+    <a href="juegos.html">🎮 Juegos</a>
+    <a href="noticias.html">📰 Noticias</a>
+  </div>
+</nav>
+  <main class="mr-originals-page">
+    <section class="mr-originals-hero">
+      <div class="mr-panel">
+        <div class="mr-kicker">MacroReborn Originals</div>
+        <h1 class="mr-originals-title">Compite por el récord.</h1>
+        <p class="mr-originals-subtitle">
+          Esta sección está preparada para convertir nuestros juegos propios en una competición real:
+          récord personal, clasificación y progreso de comunidad.
+        </p>
+        <div class="mr-actions">
+          <a class="mr-btn primary" id="abrirMacroSnake" href="/html/juegos/macro-snake.html">Jugar Macro Snake</a>
+          <a class="mr-btn" href="/macro-originals.html">Volver a Originals</a>
+        </div>
+      </div>
+
+      <div class="mr-panel mr-stat">
+        <span>Original activo</span>
+        <strong id="originalesPlayers">0</strong>
+        <span><b id="originalesGameName">Macro Snake</b> · ID <span id="originalesGameId">113</span></span>
+      </div>
+    </section>
+
+    <section class="mr-grid">
+      <div class="mr-panel">
+        <h2 class="mr-section-title">🏆 Top 20 · Macro Snake</h2>
+        <div class="mr-list" id="originalesRanking"></div>
+        <p class="mr-note">Cada usuario ocupa una sola posición usando su mejor puntuación registrada.</p>
+      </div>
+
+      <div class="mr-panel">
+        <h2 class="mr-section-title">🚀 Hoja de ruta de Originals</h2>
+        <div class="mr-list">
+          <div class="mr-row"><div class="mr-position">01</div><div class="mr-user"><strong>Récord personal</strong><small>Mejor puntuación por jugador</small></div></div>
+          <div class="mr-row"><div class="mr-position">02</div><div class="mr-user"><strong>Ranking global</strong><small>Competición permanente</small></div></div>
+          <div class="mr-row"><div class="mr-position">03</div><div class="mr-user"><strong>Logros por juego</strong><small>Objetivos exclusivos</small></div></div>
+          <div class="mr-row"><div class="mr-position">04</div><div class="mr-user"><strong>Temporadas</strong><small>Clasificaciones semanales y mensuales</small></div></div>
+        </div>
+        <p class="mr-note">El endpoint de puntuaciones queda separado para poder conectar cada Original sin tocar el motor general de juegos.</p>
+      </div>
+    </section>
+  </main>
+  <script src="/js/originales-competicion.js"></script>
+<script defer src="js/core.js"></script>
+<script defer src="js/api-client.js"></script>
+<script defer src="js/session.js"></script>
+<script defer src="js/app-shell.js"></script>
+<script defer src="js/notificaciones.js"></script>
+<script defer src="https://js.pusher.com/8.4/pusher.min.js"></script>
+<script defer src="js/realtime.js"></script>
+<script defer src="js/navbar.js"></script>
+<script defer src="js/nav-toggle.js"></script>
+</body>
+</html>

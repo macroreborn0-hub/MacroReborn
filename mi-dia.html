@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <link rel="stylesheet" href="css/inicio.css">
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mi día — MacroReborn</title>
+<link rel="stylesheet" href="/css/mi-dia.css">
+<link rel="stylesheet" href="css/theme-canonical.css">
+<link rel="stylesheet" href="css/navbar-macrojuegos.css">
+</head>
+<body class="mr-root">
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="imagenes/logo.png" alt="MacroReborn">
+    MacroReborn
+  </a>
+  <a href="comunidad-ranking.html" class="nav-boton-comunidad">Comunidad</a>
+  <div class="nav-links">
+    <a href="explorar.html">🧭 Explorar</a>
+    <a href="mi-dia.html">🔥 Mi día</a>
+    <a href="progreso.html">🎯 Progreso</a>
+    <a href="liga-global.html">🏆 Ligas</a>
+  </div>
+  <div class="nav-categorias">
+    <a href="chat.html">💬 Chat</a>
+    <a href="amigos.html">👥 Amigos</a>
+    <a href="juegos.html">🎮 Juegos</a>
+    <a href="noticias.html">📰 Noticias</a>
+  </div>
+</nav>
+<main class="md-shell">
+  <header class="md-header">
+    <a class="md-brand" href="/">MACRO<span>REBORN</span></a>
+    <nav><a href="/explorar.html">Explorar</a><a href="/progreso.html">Progreso</a><a href="/comunidad-ranking.html">Ranking</a><a href="/actividad-comunidad.html">Comunidad</a></nav>
+  </header>
+
+  <section class="md-hero">
+    <div>
+      <p class="md-eyebrow">TU CENTRO DIARIO</p>
+      <h1>Haz tu sesión de hoy.</h1>
+      <p class="md-sub">Una sola pantalla para ver tu racha, avanzar misiones, revisar actividad y volver a jugar.</p>
+    </div>
+    <div class="md-actions"><a class="md-btn md-primary" href="/explorar.html">🎮 Encontrar un juego</a><button id="checkinBtn" class="md-btn">🔥 Registrar mi día</button></div>
+  </section>
+
+  <div id="status" class="md-status" hidden></div>
+
+  <section class="md-grid">
+    <article class="md-card md-streak">
+      <div class="md-card-head"><span>🔥 Racha</span><span id="checkinState">—</span></div>
+      <div class="md-big" id="streakCurrent">0 días</div>
+      <p id="streakBest">Mejor racha: 0</p>
+    </article>
+
+    <article class="md-card">
+      <div class="md-card-head"><span>🎯 Misión de hoy</span><span id="dailyPeriod">—</span></div>
+      <h2 id="dailyTitle">Cargando…</h2><p id="dailyDesc"></p>
+      <div class="md-progress"><span id="dailyBar"></span></div>
+      <div class="md-row"><strong id="dailyValue">0/0</strong><span id="dailyReward">—</span></div>
+      <a class="md-btn md-small" href="/progreso.html">Ver progreso</a>
+    </article>
+
+    <article class="md-card">
+      <div class="md-card-head"><span>🏆 Esta semana</span><span id="weeklyPeriod">—</span></div>
+      <h2 id="weeklyTitle">Cargando…</h2><p id="weeklyDesc"></p>
+      <div class="md-progress"><span id="weeklyBar"></span></div>
+      <div class="md-row"><strong id="weeklyValue">0/0</strong><span id="weeklyReward">—</span></div>
+      <a class="md-btn md-small" href="/progreso.html">Completar</a>
+    </article>
+
+    <article class="md-card md-global">
+      <div class="md-card-head"><span>🌎 Meta global</span><span id="globalEnd">—</span></div>
+      <h2 id="globalValue">0</h2><p id="globalTarget">—</p>
+      <div class="md-progress"><span id="globalBar"></span></div>
+      <div class="md-row"><span>Recompensa comunidad</span><strong id="globalReward">—</strong></div>
+    </article>
+  </section>
+
+  <section class="md-columns">
+    <article class="md-card">
+      <div class="md-card-head"><span>🔔 Notificaciones</span><a href="/notificaciones.html">Ver todas</a></div>
+      <div id="notifications" class="md-list"><p class="md-muted">Cargando…</p></div>
+    </article>
+    <article class="md-card">
+      <div class="md-card-head"><span>👥 Tus amigos</span><a href="/amigos.html">Ver amigos</a></div>
+      <div id="friends" class="md-friends"><p class="md-muted">Cargando…</p></div>
+    </article>
+  </section>
+
+  <footer class="md-footer">MacroReborn · Tu sesión, tu progreso, tu comunidad.</footer>
+</main>
+<script defer src="js/core.js"></script>
+<script defer src="js/api-client.js"></script>
+<script defer src="js/session.js"></script>
+<script defer src="js/app-shell.js"></script>
+<script defer src="/js/mi-dia.js"></script>
+<script defer src="js/notificaciones.js"></script>
+<script defer src="https://js.pusher.com/8.4/pusher.min.js"></script>
+<script defer src="js/realtime.js"></script>
+<script defer src="js/navbar.js"></script>
+<script defer src="js/nav-toggle.js"></script>
+</body>
+</html>

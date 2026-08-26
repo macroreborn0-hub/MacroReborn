@@ -1,0 +1,425 @@
+/* ==========================================================================
+   MACRO REBORN — JUGANDO
+   Usa los tokens de css/inicio.css (:root, .navbar, etc). Pensada para una
+   experiencia inmersiva, centrada en el juego.
+   ========================================================================== */
+
+.mr-root {
+  background: var(--bg-deep);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.contenido-principal {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 28px 24px 50px;
+}
+
+.zona-juego {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ---- Barra superior: título + acciones ---- */
+
+.zona-juego-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+#tituloJuego {
+  font-family: var(--font-display);
+  font-size: clamp(19px, 3vw, 26px);
+  margin: 0;
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 60%, var(--gold-deep) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.zona-juego-acciones {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.boton-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  padding: 9px 16px;
+  border-radius: 9px;
+  transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.boton-volver:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  color: var(--gold-bright);
+}
+
+/* ---- "Gabinete" que envuelve el juego ---- */
+
+.pantalla-juego {
+  position: relative;
+  border-radius: 20px;
+  padding: 14px;
+  background: linear-gradient(180deg, #1b2740, #0a0f1c);
+  border: 3px solid var(--clasico-borde);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(240, 180, 41, 0.08);
+}
+
+.pantalla-juego::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 22px;
+  right: 22px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.85;
+  border-radius: 0 0 6px 6px;
+}
+
+#contenedorJuego {
+  position: relative;
+  height: min(76vh, 820px);
+  min-height: 380px;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#contenedorJuego iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}
+
+#contenedorJuego h2 {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 18px;
+}
+
+/* ---- Overlay de carga ---- */
+
+.overlay-carga {
+  position: absolute;
+  inset: 14px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: #05070d;
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  transition: opacity 0.35s ease;
+}
+
+.overlay-carga.oculto {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner-carga {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid rgba(240, 180, 41, 0.2);
+  border-top-color: var(--gold);
+  animation: girar 0.9s linear infinite;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner-carga {
+    animation-duration: 2.4s;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .contenido-principal {
+    padding: 18px 12px 36px;
+  }
+
+  .pantalla-juego {
+    padding: 8px;
+    border-radius: 16px;
+  }
+
+  #contenedorJuego {
+    height: min(60vh, 560px);
+    min-height: 300px;
+    border-radius: 10px;
+  }
+
+  .overlay-carga {
+    inset: 8px;
+  }
+}
+
+/* ---- Herramientas y experiencia posterior a la partida ---- */
+.panel-juego-herramientas {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  padding: 18px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.16);
+}
+
+.juego-metadata-resumen {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.juego-metadata-resumen > div {
+  min-width: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.07);
+}
+
+.metadata-label,
+.post-juego-kicker,
+.seccion-kicker {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.juego-metadata-resumen strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.juego-acciones-secundarias {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.boton-herramienta {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+  color: var(--text-main);
+  padding: 10px 13px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+
+.boton-herramienta:hover {
+  transform: translateY(-1px);
+  border-color: var(--gold);
+  background: rgba(240,180,41,.08);
+}
+
+.boton-destacado {
+  border-color: rgba(240,180,41,.5);
+  background: rgba(240,180,41,.10);
+  color: var(--gold-bright);
+}
+
+.panel-post-juego {
+  display: block;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(240,180,41,.10), rgba(255,255,255,.02));
+  border: 1px solid rgba(240,180,41,.35);
+  border-radius: 18px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.18);
+}
+
+.panel-post-juego[hidden] { display: none; }
+
+.post-juego-cabecera {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.post-juego-cabecera h2,
+.seccion-juegos-heading h2 {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.3vw, 25px);
+}
+
+.post-juego-cabecera p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.boton-cerrar-panel {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.post-juego-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.post-juego-accion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 15px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  color: var(--text-main);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 13px;
+  background: rgba(255,255,255,.03);
+}
+
+.post-juego-accion.accion-principal {
+  color: #0b1020;
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+  border-color: transparent;
+}
+
+.panel-juegos-relacionados {
+  padding-top: 5px;
+}
+
+.seccion-juegos-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.seccion-juegos-heading a {
+  color: var(--gold-bright);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.grid-juegos-relacionados {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.tarjeta-relacionada {
+  display: block;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.tarjeta-relacionada:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold);
+  box-shadow: 0 14px 26px rgba(0,0,0,.16);
+}
+
+.tarjeta-relacionada-imagen {
+  aspect-ratio: 16 / 9;
+  background: #0a0f18;
+  overflow: hidden;
+}
+
+.tarjeta-relacionada-imagen img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.tarjeta-relacionada-contenido {
+  padding: 10px 11px 12px;
+}
+
+.tarjeta-relacionada-contenido h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+}
+
+.tarjeta-relacionada-contenido p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+@media (max-width: 980px) {
+  .panel-juego-herramientas { grid-template-columns: 1fr; }
+  .juego-acciones-secundarias { justify-content: flex-start; }
+  .grid-juegos-relacionados { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 680px) {
+  .juego-metadata-resumen { grid-template-columns: 1fr; }
+  .grid-juegos-relacionados { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .post-juego-acciones { display: grid; grid-template-columns: 1fr; }
+}
